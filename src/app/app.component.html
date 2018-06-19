@@ -17,74 +17,23 @@
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Flights</a>
+                <a class="nav-link" href="/flights">Flights</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Hotels</a>
+                <a class="nav-link" href="/hotels">Hotels</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Teleportation</a>
+                <a class="nav-link" href="/teleportation">Teleportation</a>
               </li>
             </ul>
           </div>
         </nav>
       </div>
-      <!--- MAIN BODY --->
+      <!--- ROUTER --->
       <div class="container">
         <div class="jumbotron">
-          <h1 class="display-4">Welcome to Zzpace</h1>
-          <p class="lead">We are your #1 source for intergalactic travel!</p>
-          <hr class="my-4">
-          <p>We help you with flights, teleportation and hotels with the best prices available!</p>
-          <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-          </p>
+          <router-outlet></router-outlet>
         </div>
-      </div>
-      <!-- FORM -->
-      <div class="container">
-        <form>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" placeholder="From">
-            </div>
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" placeholder="To">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <input type="text" class="form-control" placeholder="Departing Date">
-            </div>
-            <div class="form-group col-md-4">
-              <input type="text" class="form-control" placeholder="Return Date">
-            </div>
-            <div class="form-group col-md-4">
-              <select class="custom-select">
-                <option selected>Number of Tickets</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-                <option value="4">Four</option>
-                <option value="5">Five</option>
-                <option value="6">Six</option>
-                <option value="7">Seven</option>
-                <option value="8">Eight</option>
-                <option value="9">Nine</option>
-                <option value="19">Ten</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <mat-form-field class="form-control">
-                <input matInput [matDatepicker]="picker" placeholder="Choose a departure date">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </div>
-          </div>
-        </form>
       </div>
     </div>
   </body>

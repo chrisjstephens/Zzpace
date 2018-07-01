@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CdkTableModule} from '@angular/cdk/table';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -52,6 +53,10 @@ import { FlightsViewComponent } from './views/flights-view/flights-view.componen
 import { HomeViewComponent } from './views/home-view/home-view.component';
 import { HotelsViewComponent } from './views/hotels-view/hotels-view.component';
 import { TeleportationViewComponent } from './views/teleportation-view/teleportation-view.component';
+import { HeaderViewComponent } from './views/header-view/header-view.component';
+import { ProcessFlightsComponent } from './components/process-flights/process-flights.component';
+
+import { FlightsService } from './views/flights-view/flights-service.service';
 
 
 @NgModule({
@@ -92,7 +97,8 @@ import { TeleportationViewComponent } from './views/teleportation-view/teleporta
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-  ]
+  ],
+  declarations: [ProcessFlightsComponent]
 })
 export class MaterialModule {}
 
@@ -100,8 +106,9 @@ export class MaterialModule {}
   declarations: [
     AppComponent,
     DatePickerComponent,
+    HeaderViewComponent,
     HomeViewComponent,
-    HotelsViewComponent
+    HotelsViewComponent,
     FlightsViewComponent,
     LocationPickerComponent,
     TeleportationViewComponent,
@@ -113,10 +120,11 @@ export class MaterialModule {}
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    NgbModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [FlightsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

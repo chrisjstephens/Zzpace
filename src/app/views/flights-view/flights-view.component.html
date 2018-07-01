@@ -1,23 +1,113 @@
-<form>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <app-location-picker [placeholder]="'From'"></app-location-picker>
+<form [formGroup]="flightsForm" (ngSubmit)="onSubmit()"> <!-- [formGroup]="flightsForm" -->
+  <div *ngIf="!displayDepartureResults && !displayArrivalResults && !displayFlightPicked">
+    <h1>Flights</h1>
+    <div class="btn-group pb-1" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary" (click)="changeFlightType()">Return</button>
+      <button type="button" class="btn btn-secondary" (click)="changeFlightType()">One-Way</button>
     </div>
-    <div class="form-group col-md-4">
-      <app-location-picker [placeholder]="'To'"></app-location-picker>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <!-- <app-location-picker [placeholder]="'From'" [formControlName]="'fromLocation'"></app-location-picker> -->
+        <mat-form-field class="example-full-width">
+         <input formControlName="fromLocation" matInput type="text" class="form-control" placeholder="From" aria-label="From" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let location of filteredLocations | async" [value]="location.name">
+              <span>{{ location.name }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-4">
+          <mat-form-field class="example-full-width">
+            <input formControlName="toLocation" matInput  type="text" class="form-control" placeholder="To" aria-label="To" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let location of filteredLocations | async" [value]="location.name">
+                <span>{{ location.name }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <!-- <app-date-picker [placeholder]="'Departure Date'"></app-date-picker> -->
+        <mat-form-field class="form-control">
+          <input matInput formControlName="departureDate" [matDatepicker]="picker" placeholder="Departure Date" [min]="minDate" [max]="maxDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-4">
+        <!--<app-date-picker [placeholder]="'Return Date'"></app-date-picker>-->
+        <mat-form-field class="form-control" *ngIf="returnFlightType">
+          <input matInput formControlName="returnDate" [matDatepicker]="picker2" placeholder="Return Date" [min]="minDate" [max]="maxDate">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <mat-form-field>
+          <mat-select formControlName="ticketsAmt" placeholder="Amount of Tickets">
+            <mat-option *ngFor="let option of selectOptions" [value]="option.value">
+              {{ option.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <button type="submit" mat-raised-button>Search</button>
+      </div>
     </div>
   </div>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <app-date-picker [placeholder]="'Departure Date'"></app-date-picker>
+  <div *ngIf="displayResults">
+    <div *ngIf="displayDepartureResults">
+      <h1> Please pick a departure flight! </h1>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let r of departureflightResults">
+          <p> <span class="font-weight-bold">{{r.flightId}}</span>
+          <p> <span class="font-weight-bold">{{r.departureLocation}}</span> to <span class="font-weight-bold">{{r.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ r.flightTimeLength }} Hours <p>
+          <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ r.departureTime | date:'medium' }}</p>
+          <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ r.arrivalTime | date:'medium' }} </p>
+          <br>
+          <span class="font-weight-bold">Price:</span> {{ r.flightPrice | currency }}
+          <button type="button" class="btn btn-primary float-right" (click)="pickDepartureFlight(r.flightId, r)">Select</button>
+        </li>
+      </ul>
     </div>
-    <div class="form-group col-md-4">
-      <app-date-picker [placeholder]="'Return Date'"></app-date-picker>
+    <div *ngIf="returnFlightType && displayArrivalResults">
+      <h1> Please pick a return flight!</h1>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let r of returnflightResults">
+          <p> <span class="font-weight-bold">{{r.flightId}}</span>
+          <p> <span class="font-weight-bold">{{r.departureLocation}}</span> to <span class="font-weight-bold">{{r.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ r.flightTimeLength }} Hours <p>
+          <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ r.departureTime | date:'medium' }}</p>
+          <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ r.arrivalTime | date:'medium' }} </p>
+          <br>
+          <span class="font-weight-bold">Price:</span> {{ r.flightPrice | currency }}
+          <button type="button" class="btn btn-primary float-right" (click)="pickReturnFlight(r.flightId, r)">Select</button>
+        </li>
+      </ul>
     </div>
   </div>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <app-ticket-select></app-ticket-select>
-    </div>
+  <div *ngIf="displayFlightPicked">
+    <h1>Congrats for your booking!</h1>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let r of flightData; let i = index">
+        <h2 *ngIf="i == 0">Departure Flight:</h2>
+        <h2 *ngIf="i == 1">Return Flight:</h2>
+        <p> <span class="font-weight-bold">{{r.flightId}}</span>
+        <p> <span class="font-weight-bold">{{r.departureLocation}}</span> to <span class="font-weight-bold">{{r.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ r.flightTimeLength }} Hours <p>
+        <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ r.departureTime | date:'medium' }}</p>
+        <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ r.arrivalTime | date:'medium' }} </p>
+        <br>
+        <span class="font-weight-bold">Price:</span> {{ r.flightPrice | currency }}
+      </li>
+    </ul>
+    <h3>Total Price: {{ totalFlightsCost | currency}}</h3>
+    <p>Thank you for flying with Zzpace!</p>
   </div>
 </form>

@@ -9,17 +9,18 @@
       <small>Population: {{state.population}}</small>
     </mat-option>
   </mat-autocomplete>
-</mat-form-field> -->
+</mat-form-field>
+
+formControlName={{formControlName}} -->
 
 <mat-form-field class="example-full-width">
-  <input matInput type="text" class="form-control" placeholder={{placeholder}} aria-label="asdf" [matAutocomplete]="auto" [formControl]="locationCtrl">
+  <input matInput type="text" class="form-control" placeholder={{placeholder}} aria-label="asdf" [matAutocomplete]="auto"  formControlName={{formControlName}}> <!-- [formControl]="locationCtrl" -->
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option *ngFor="let location of filteredLocations | async" [value]="location.name">
       <span>{{ location.name }}</span>
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
-
 
 <!--<br />
  <mat-slide-toggle

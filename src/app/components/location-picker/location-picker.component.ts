@@ -14,12 +14,14 @@ export class LocationPickerComponent implements OnInit {
   //TODO: From must not be same as To
 
   @Input() private placeholder: string;
+  @Input() private formControlName: string;
+
   locationCtrl: FormControl;
   stateCtrl: FormControl;
   filteredLocations: Observable<any[]>;
   filteredStates: Observable<any[]>;
 
-  locations: Locations[] = [
+  locations: [
     {
       name: 'Earth'
     },
@@ -34,6 +36,10 @@ export class LocationPickerComponent implements OnInit {
     }
   ];
 
+  ngOnInit() {
+
+  }
+
   constructor() {
     this.locationCtrl = new FormControl();
     this.filteredLocations = this.locationCtrl.valueChanges
@@ -41,6 +47,7 @@ export class LocationPickerComponent implements OnInit {
         startWith(''),
         map(location => location ? this.filterLocations(location) : this.locations.slice())
       );
+      console.log('formCtrlName', this.formControlName);
   }
 
   filterLocations(name: string) {

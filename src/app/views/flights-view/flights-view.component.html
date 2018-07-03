@@ -1,16 +1,16 @@
-<form [formGroup]="flightsForm" (ngSubmit)="onSubmit()"> <!-- [formGroup]="flightsForm" -->
-  <div *ngIf="!displayDepartureResults && !displayArrivalResults && !displayFlightPicked">
+<form [formGroup]="flightsForm" (ngSubmit)="onSubmit()">
+  <div *ngIf="!loadingScreen && !displayDepartureResults && !displayArrivalResults && !displayFlightPicked">
     <h1>Flights</h1>
-    <div class="btn-group pb-1" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-secondary" (click)="changeFlightType()">Return</button>
-      <button type="button" class="btn btn-secondary" (click)="changeFlightType()">One-Way</button>
+    <div class="btn-group pb-1" role="group" aria-label="Navigation buttons" >
+      <button type="button" class="btn btn-secondary" [ngClass]="{'active': returnFlightType}" (click)="changeFlightTypeReturn()" aria-pressed="true">Return</button>
+      <button type="button" class="btn btn-secondary" [ngClass]="{'active': oneWayFlightType}" (click)="changeFlightTypeOneWay()" aria-pressed="true">One-Way</button>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
         <!-- <app-location-picker [placeholder]="'From'" [formControlName]="'fromLocation'"></app-location-picker> -->
         <mat-form-field class="example-full-width">
-         <input formControlName="fromLocation" matInput type="text" class="form-control" placeholder="From" aria-label="From" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
+         <input formControlName="fromLocation" matInput type="text" class="form-control" placeholder="From" aria-label="From" [matAutocomplete]="auto" required>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="locationPickerCheck($event)">
             <mat-option *ngFor="let location of filteredLocations | async" [value]="location.name">
               <span>{{ location.name }}</span>
             </mat-option>
@@ -19,20 +19,21 @@
       </div>
       <div class="form-group col-md-4">
           <mat-form-field class="example-full-width">
-            <input formControlName="toLocation" matInput  type="text" class="form-control" placeholder="To" aria-label="To" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
+            <input formControlName="toLocation" matInput  type="text" class="form-control" placeholder="To" aria-label="To" [matAutocomplete]="auto" required>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="locationPickerCheck($event)">
               <mat-option *ngFor="let location of filteredLocations | async" [value]="location.name">
                 <span>{{ location.name }}</span>
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
       </div>
+      <p class="text-danger px-1" *ngIf="flightsForm.controls.toLocation.errors?.invalidLocations">The locations can't match, please ensure that they are different.</p>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
         <!-- <app-date-picker [placeholder]="'Departure Date'"></app-date-picker> -->
         <mat-form-field class="form-control">
-          <input matInput formControlName="departureDate" [matDatepicker]="picker" placeholder="Departure Date" [min]="minDate" [max]="maxDate">
+          <input matInput formControlName="departureDate" [matDatepicker]="picker" placeholder="Departure Date" [min]="minDateDeparture" [max]="maxDateDeparture" (dateChange)="dateCheck()" required>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -40,17 +41,18 @@
       <div class="form-group col-md-4">
         <!--<app-date-picker [placeholder]="'Return Date'"></app-date-picker>-->
         <mat-form-field class="form-control" *ngIf="returnFlightType">
-          <input matInput formControlName="returnDate" [matDatepicker]="picker2" placeholder="Return Date" [min]="minDate" [max]="maxDate">
+          <input matInput formControlName="returnDate" [matDatepicker]="picker2" placeholder="Return Date" [min]="minDateReturn" [max]="maxDateReturn" (dateChange)="dateCheck()"  required>
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
       </div>
+      <p class="text-danger px-1" *ngIf="flightsForm.controls.returnDate.errors?.invalidDates">The departure date must be before the return date.</p>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
         <mat-form-field>
-          <mat-select formControlName="ticketsAmt" placeholder="Amount of Tickets">
-            <mat-option *ngFor="let option of selectOptions" [value]="option.value">
+          <mat-select formControlName="ticketsAmt"  placeholder="Amount of Tickets" required>
+            <mat-option *ngFor="let option of selectOptions" [value]="option.value" >
               {{ option.viewValue }}
             </mat-option>
           </mat-select>
@@ -59,11 +61,15 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <button type="submit" mat-raised-button>Search</button>
+        <button type="submit" mat-raised-button [disabled]="!flightsForm.valid">Search</button>
       </div>
     </div>
   </div>
   <div *ngIf="displayResults">
+    <div *ngIf="loadingScreen">
+      <h1>Loading Flights...</h1>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
     <div *ngIf="displayDepartureResults">
       <h1> Please pick a departure flight! </h1>
       <ul class="list-group">
@@ -106,8 +112,10 @@
         <br>
         <span class="font-weight-bold">Price:</span> {{ r.flightPrice | currency }}
       </li>
+      <li class="list-group-item">
+        <h3>Total Price: {{ totalFlightsCost | currency}}</h3>
+        <p>Thank you for flying with Zzpace!</p>
+      </li>
     </ul>
-    <h3>Total Price: {{ totalFlightsCost | currency}}</h3>
-    <p>Thank you for flying with Zzpace!</p>
   </div>
 </form>

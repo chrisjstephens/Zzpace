@@ -11,6 +11,7 @@ export class FlightsService {
 
   public flightStatus : number =  0;
 
+
   private flightObj : object = {
     departureTimes: [ this.getDepartureTime('6'), this.getDepartureTime('10'), this.getDepartureTime('14'), this.getDepartureTime('18'), this.getDepartureTime('22') ],
     flightLength: Math.floor(Math.random() * 41) + 40;

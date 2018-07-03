@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators'
@@ -28,6 +28,8 @@ export class FlightsViewComponent implements OnInit {
   departureflightResults: object;
   flightData: object;
   totalFlightsCost: number;
+  loadingScreen: boolean = false;
+  errorsObject: object = [];
 
   locations: Locations[] = [
     {
@@ -53,8 +55,12 @@ export class FlightsViewComponent implements OnInit {
     {value: '6', viewValue: '6'}
   ];
 
-  minDate = new Date();
-  maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+  minDateDeparture = new Date();
+  maxDateDeparture = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+
+  minDateReturn = new Date();// minDateDepartureminDateDeparture.getDate() + 7;
+  maxDateReturn = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+
 
   constructor(private fb: FormBuilder, private flightsService: FlightsService) {
 
@@ -68,32 +74,64 @@ export class FlightsViewComponent implements OnInit {
     this.createForm();
   }
 
-  ngOnInit() {
-    // this.flightsService.getFlightStatus2().subscribe(
-    //   data => console.log(data));
-  }
+
+  // checkDateValues() {
+  //   console.log('check date values', this.minDateReturn);
+  // }
 
   //TODO: Submit form results to service
 
   createForm() {
-    console.log('form created');
-    this.flightsForm = this.fb.group({
-     fromLocation: '',
-     toLocation: '',
-     departureDate: '',
-     returnDate: '',
-     ticketsAmt: 0
-   });
+    this.flightsForm = new FormGroup({
+      fromLocation: new FormControl('', Validators.required),
+      toLocation: new FormControl('', Validators.required),
+      departureDate: new FormControl('', Validators.required),
+      returnDate: new FormControl('', Validators.required),
+      ticketsAmt: new FormControl('', Validators.required)
+    });
+  }
+
+  dateCheck() {
+    if (this.oneWayFlightType) {
+      return;
+    }
+
+    const hasValues = this.flightsForm.value.departureDate && this.flightsForm.value.returnDate;
+    const invalidDates = this.flightsForm.value.departureDate >= this.flightsForm.value.returnDate;
+
+    if (hasValues && invalidDates) {
+      this.flightsForm.controls.returnDate.setErrors({
+        invalidDates: true
+      });
+      console.log(this.flightsForm);
+    }
+
+  }
+
+  locationPickerCheck() {
+    const hasValues = this.flightsForm.value.fromLocation && this.flightsForm.value.toLocation;
+    const invalidLocations = this.flightsForm.value.fromLocation == this.flightsForm.value.toLocation;
+
+    if (hasValues && invalidLocations) {
+      this.flightsForm.controls.toLocation.setErrors({
+        invalidLocations: true
+      });
+    }
+    console.log(this.flightsForm);
   }
 
   onSubmit() {
-    //console.log('some results lol', this.someResults);
     console.log('form submit!', typeof(this.flightsForm.value));
 
     this.departureflightResults = this.flightsService.getFlightStatus(this.flightsForm.value);
 
     this.displayResults = true;
-    this.displayDepartureResults = true;
+    this.loadingScreen = true;
+
+    setTimeout(function(e){
+      this.loadingScreen = false;
+      this.displayDepartureResults = true;
+    }.bind(this), 3000);
 
   }
 
@@ -104,23 +142,23 @@ export class FlightsViewComponent implements OnInit {
 
   pickDepartureFlight(flightId: string, flightDepartureData: object) {
     this.displayDepartureResults = false;
-    this.displayArrivalResults = true;
 
     this.flightData = [ flightDepartureData ];
 
     if (this.returnFlightType) {
+      this.loadingScreen = true;
+
+      setTimeout(function(e){
+        this.loadingScreen = false;
+        this.displayArrivalResults = true;
+      }.bind(this), 3000);
+
       this.returnflightResults = this.flightsService.getReturnFlightStatus(this.flightsForm.value);
     } else {
       this.totalFlightsCost = (+this.flightData[0].flightPrice)
       this.displayArrivalResults = false;
       this.displayFlightPicked = true;
     }
-
-    //this.displayFlightPicked = true;
-    //
-    // console.log('flight picked!', flightId);
-    // console.log('flight picked data', flightData);
-    // console.log('this.displayFlightPicked', this.displayFlightPicked);
 
   }
 
@@ -133,8 +171,19 @@ export class FlightsViewComponent implements OnInit {
     this.totalFlightsCost = ((+this.flightData[0].flightPrice) + (+this.flightData[1].flightPrice)) * 1.15;
   }
 
-  changeFlightType() {
-    this.returnFlightType = !this.returnFlightType;
-    this.oneWayFlightType = !this.oneWayFlightType;
+  changeFlightTypeReturn() {
+    this.returnFlightType = true;
+    this.oneWayFlightType = false;
+    this.flightsForm.controls.returnDate.enable();
+  }
+
+  changeFlightTypeOneWay() {
+    this.oneWayFlightType = true;
+    this.returnFlightType = false;
+    this.flightsForm.controls.returnDate.disable();
+  }
+
+  getReturnFlightType():boolean {
+    return this.returnFlightType;
   }
 }

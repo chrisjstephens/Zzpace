@@ -10,6 +10,16 @@ export class Locations {
   constructor(public name: string) { }
 }
 
+export class FlightData {
+  constructor(private flightId: string,
+  public arrivalLocation: string,
+  public departureLocation: string,
+  public arrivalTime: Date,
+  public departureTime:  Date,
+  public flightTimeLength: number,
+  public flightPrice: number) { }
+}
+
 @Component({
   selector: 'app-flights-view',
   templateUrl: './flights-view.component.html',
@@ -20,16 +30,17 @@ export class FlightsViewComponent implements OnInit {
   locationCtrl: FormControl;
   filteredLocations: Observable<any[]>;
   displayResults: boolean = false;
+  displayArrivalResults: boolean = false;
   displayDepartureResults: boolean = false;
   displayReturnResults: boolean = false;
   displayFlightPicked: boolean = false;
   returnFlightType: boolean = true;
   oneWayFlightType: boolean = false;
   departureflightResults: object;
-  flightData: object;
+  returnFlightResults: object;
+  flightData: FlightData[];
   totalFlightsCost: number;
   loadingScreen: boolean = false;
-  errorsObject: object = [];
 
   locations: Locations[] = [
     {
@@ -74,11 +85,8 @@ export class FlightsViewComponent implements OnInit {
     this.createForm();
   }
 
-
-  // checkDateValues() {
-  //   console.log('check date values', this.minDateReturn);
-  // }
-
+  ngOnInit() {
+  }
   //TODO: Submit form results to service
 
   createForm() {
@@ -123,7 +131,7 @@ export class FlightsViewComponent implements OnInit {
   onSubmit() {
     console.log('form submit!', typeof(this.flightsForm.value));
 
-    this.departureflightResults = this.flightsService.getFlightStatus(this.flightsForm.value);
+    this.departureflightResults = this.flightsService.getDepartureFlightStatus(this.flightsForm.value);
 
     this.displayResults = true;
     this.loadingScreen = true;
@@ -140,7 +148,7 @@ export class FlightsViewComponent implements OnInit {
       location.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
-  pickDepartureFlight(flightId: string, flightDepartureData: object) {
+  pickDepartureFlight(flightId: string, flightDepartureData: FlightData) { //flightDepartureData: object
     this.displayDepartureResults = false;
 
     this.flightData = [ flightDepartureData ];
@@ -153,7 +161,7 @@ export class FlightsViewComponent implements OnInit {
         this.displayArrivalResults = true;
       }.bind(this), 3000);
 
-      this.returnflightResults = this.flightsService.getReturnFlightStatus(this.flightsForm.value);
+      this.returnFlightResults = this.flightsService.getReturnFlightStatus(this.flightsForm.value);
     } else {
       this.totalFlightsCost = (+this.flightData[0].flightPrice)
       this.displayArrivalResults = false;
@@ -162,11 +170,13 @@ export class FlightsViewComponent implements OnInit {
 
   }
 
-  pickReturnFlight(flightId: string, flightReturnData: object) {
+  pickReturnFlight(flightId: string, flightReturnData: FlightData) { //flightReturnData: object
     this.displayArrivalResults = false;
     this.displayFlightPicked = true;
-
+    console.log('prf', flightReturnData);
+    console.log('this.flightData before', this.flightData);
     this.flightData.push(flightReturnData);
+    console.log('this.flightData after', this.flightData);
 
     this.totalFlightsCost = ((+this.flightData[0].flightPrice) + (+this.flightData[1].flightPrice)) * 1.15;
   }

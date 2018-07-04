@@ -9,26 +9,14 @@ export class FlightsService {
 
   constructor() { }
 
-  public flightStatus : number =  0;
+  private flightLength:number = Math.floor(Math.random() * 41) + 40;
 
-
-  private flightObj : object = {
-    departureTimes: [ this.getDepartureTime('6'), this.getDepartureTime('10'), this.getDepartureTime('14'), this.getDepartureTime('18'), this.getDepartureTime('22') ],
-    flightLength: Math.floor(Math.random() * 41) + 40;
-  };
-
-  public updateFlightStatus() {
-    this.flightStatus++;
-    console.log('flightStatus', this.flightStatus);
-  }
-
-  public getFlightStatus(obj):object {
+  public getDepartureFlightStatus(obj):object {
     console.log('flightInfo', obj);
 
     const departureTimes = [6, 10, 14, 18, 22];
 
-    let flightObj = this.flightObj;
-    let flightLength = flightObj.flightLength;
+    let flightLength = this.flightLength;
     let flightInfo = obj;
 
     let departureDate = obj.departureDate;
@@ -36,7 +24,6 @@ export class FlightsService {
 
     let fromLocation = obj.fromLocation;
     let toLocation = obj.toLocation;
-
 
     const flightTime6 = departureTimes[0];
     const departureTime6 = this.getDepartureTime(departureDate , flightTime6);
@@ -99,8 +86,7 @@ export class FlightsService {
 
     const returnTimes = [7, 11, 15, 19, 23];
 
-    let flightObj = this.flightObj;
-    let flightLength = flightObj.flightLength;
+    let flightLength = this.flightLength;
     let flightInfo = obj;
 
     let departureDate = obj.departureDate;
@@ -165,7 +151,7 @@ export class FlightsService {
     return flightObj;
   }
 
-  private createFlightObj(flightId:string, toLocation:string, fromLocation:string, arrivalTime:string, departureTime:string, flightTimeLength:number, flightPrice:number):string {
+  private createFlightObj(flightId:string, toLocation:string, fromLocation:string, arrivalTime:Date, departureTime:Date, flightTimeLength:number, flightPrice:number):object {
       var x = {
       "flightId" : flightId,
       "arrivalLocation" : toLocation,
@@ -173,38 +159,32 @@ export class FlightsService {
       "arrivalTime" : arrivalTime,
       "departureTime" : departureTime,
       "flightTimeLength" : flightTimeLength,
-      "flightPrice" : flightPrice };
-
+      "flightPrice" : flightPrice
+      };
     return x;
   }
 
-  private getDepartureTime(date:string, hours:number):object {;
+  private getDepartureTime(date:number, hours:number):Date {
     let dateOut = new Date(date);
-    dateOut.setHours(hours, '00', '00');
+    dateOut.setHours(hours, 0, 0);
     return dateOut;
   }
 
-  private getArrivalTime(departureDate:object, departHour:number, flightLength:number):object {
+  private getArrivalTime(departureDate:Date, departHour:number, flightLength:number):Date {
     if (!departureDate) { return; }
 
-    Date.prototype.addHours = function(h){
-     this.setHours(this.getHours()+h);
-     return this;
-   }
-
     let date = departureDate;
-    date.setHours(departHour);
-    date.addHours(flightLength);
+    date.setHours(date.getHours() + flightLength);
     return date;
   }
 
-  private getFlightId(fromLocation:string, flightNumber:number, toLocation:string, departureDate: string) {
+  private getFlightId(fromLocation:string, flightNumber:number, toLocation:string, departureDate: Date) {
     let flightId = fromLocation.substring(0,2).toUpperCase() + '-' + flightNumber + '-' + toLocation.substring(0,2).toUpperCase() + '-' + + departureDate.getMonth() + departureDate.getDate() + departureDate.getFullYear().toString().substring(2,4);
 
     return flightId;
   }
 
-  private calculateFlightPrice(departureDate:object):number {
+  private calculateFlightPrice(departureDate: Date):number {
     let price = 100;
 
     //Calculate price based on departure day of week
@@ -226,7 +206,7 @@ export class FlightsService {
     }
 
     //round price to 2 decimals
-    price = price.toFixed(2);
+    price = +price.toFixed(2);
 
     return price;
   }

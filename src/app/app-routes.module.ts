@@ -5,7 +5,7 @@ import { HomeViewComponent } from './views/home-view/home-view.component';
 import { HotelsViewComponent } from './views/hotels-view/hotels-view.component';
 import { FlightsViewComponent } from './views/flights-view/flights-view.component';
 import { TeleportationViewComponent } from './views/teleportation-view/teleportation-view.component';
-import { ProcessFlightsComponent } from './components/process-flights/process-flights.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 
 const appRoutes: Routes = [
@@ -13,7 +13,7 @@ const appRoutes: Routes = [
    { path: 'hotels', component: HotelsViewComponent },
    { path: 'flights', component: FlightsViewComponent },
    { path: 'teleportation', component: TeleportationViewComponent },
-   { path: 'processFlights/:to', component: ProcessFlightsComponent }
+   { path: '**',  component: PageNotFoundComponent }
 ];
 
 @NgModule({

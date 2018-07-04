@@ -54,9 +54,10 @@ import { HomeViewComponent } from './views/home-view/home-view.component';
 import { HotelsViewComponent } from './views/hotels-view/hotels-view.component';
 import { TeleportationViewComponent } from './views/teleportation-view/teleportation-view.component';
 import { HeaderViewComponent } from './views/header-view/header-view.component';
-import { ProcessFlightsComponent } from './components/process-flights/process-flights.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 import { FlightsService } from './views/flights-view/flights-service.service';
+
 
 
 @NgModule({
@@ -97,8 +98,8 @@ import { FlightsService } from './views/flights-view/flights-service.service';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-  ],
-  declarations: [ProcessFlightsComponent]
+  ]
+
 })
 export class MaterialModule {}
 
@@ -111,6 +112,7 @@ export class MaterialModule {}
     HotelsViewComponent,
     FlightsViewComponent,
     LocationPickerComponent,
+    PageNotFoundComponent,
     TeleportationViewComponent,
     TicketSelectComponent
   ],

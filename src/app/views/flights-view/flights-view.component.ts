@@ -6,19 +6,8 @@ import { map, startWith } from 'rxjs/operators'
 
 import { FlightsService } from "./flights-service.service";
 
-export class Locations {
-  constructor(public name: string) { }
-}
-
-export class FlightData {
-  constructor(private flightId: string,
-  public arrivalLocation: string,
-  public departureLocation: string,
-  public arrivalTime: Date,
-  public departureTime:  Date,
-  public flightTimeLength: number,
-  public flightPrice: number) { }
-}
+import { Locations } from "../../models/locations.model";
+import { FlightData } from "../../models/flightData.model";
 
 @Component({
   selector: 'app-flights-view',
@@ -39,8 +28,10 @@ export class FlightsViewComponent implements OnInit {
   departureflightResults: object;
   returnFlightResults: object;
   flightData: FlightData[];
-  totalFlightsCost: number;
   loadingScreen: boolean = false;
+  totalFlightsCost: number;
+  totalFlightsSubtotal: number;
+  totalFlightsTaxtotal: number;
 
   locations: Locations[] = [
     {
@@ -69,9 +60,8 @@ export class FlightsViewComponent implements OnInit {
   minDateDeparture = new Date();
   maxDateDeparture = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
-  minDateReturn = new Date();// minDateDepartureminDateDeparture.getDate() + 7;
+  minDateReturn = new Date();
   maxDateReturn = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
-
 
   constructor(private fb: FormBuilder, private flightsService: FlightsService) {
 
@@ -87,7 +77,6 @@ export class FlightsViewComponent implements OnInit {
 
   ngOnInit() {
   }
-  //TODO: Submit form results to service
 
   createForm() {
     this.flightsForm = new FormGroup({
@@ -111,9 +100,7 @@ export class FlightsViewComponent implements OnInit {
       this.flightsForm.controls.returnDate.setErrors({
         invalidDates: true
       });
-      console.log(this.flightsForm);
     }
-
   }
 
   locationPickerCheck() {
@@ -125,12 +112,9 @@ export class FlightsViewComponent implements OnInit {
         invalidLocations: true
       });
     }
-    console.log(this.flightsForm);
   }
 
   onSubmit() {
-    console.log('form submit!', typeof(this.flightsForm.value));
-
     this.departureflightResults = this.flightsService.getDepartureFlightStatus(this.flightsForm.value);
 
     this.displayResults = true;
@@ -140,7 +124,6 @@ export class FlightsViewComponent implements OnInit {
       this.loadingScreen = false;
       this.displayDepartureResults = true;
     }.bind(this), 3000);
-
   }
 
   filterLocations(name: string) {
@@ -148,7 +131,7 @@ export class FlightsViewComponent implements OnInit {
       location.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
-  pickDepartureFlight(flightId: string, flightDepartureData: FlightData) { //flightDepartureData: object
+  pickDepartureFlight(flightId: string, flightDepartureData: FlightData) {
     this.displayDepartureResults = false;
 
     this.flightData = [ flightDepartureData ];
@@ -163,22 +146,31 @@ export class FlightsViewComponent implements OnInit {
 
       this.returnFlightResults = this.flightsService.getReturnFlightStatus(this.flightsForm.value);
     } else {
-      this.totalFlightsCost = (+this.flightData[0].flightPrice)
+      this.calculateFlightCosts();
       this.displayArrivalResults = false;
       this.displayFlightPicked = true;
     }
 
   }
 
-  pickReturnFlight(flightId: string, flightReturnData: FlightData) { //flightReturnData: object
+  pickReturnFlight(flightId: string, flightReturnData: FlightData) {
     this.displayArrivalResults = false;
     this.displayFlightPicked = true;
-    console.log('prf', flightReturnData);
-    console.log('this.flightData before', this.flightData);
-    this.flightData.push(flightReturnData);
-    console.log('this.flightData after', this.flightData);
 
-    this.totalFlightsCost = ((+this.flightData[0].flightPrice) + (+this.flightData[1].flightPrice)) * 1.15;
+    this.flightData.push(flightReturnData);
+
+    this.calculateFlightCosts();
+  }
+
+  calculateFlightCosts() {
+    const taxAmt = 0.15
+    const departureFlightCost = this.flightData[0].flightPrice ? this.flightData[0].flightPrice : 0;
+    const returnFlightCost = this.flightData[1] ? this.flightData[1].flightPrice : 0;
+    const ticketsAmt = this.flightsForm.value.ticketsAmt;
+
+    this.totalFlightsSubtotal = (departureFlightCost + returnFlightCost) * ticketsAmt);
+    this.totalFlightsTaxtotal = (+this.totalFlightsSubtotal) * taxAmt;
+    this.totalFlightsCost = (Math.round(this.totalFlightsSubtotal * 100) / 100)  + (Math.round(this.totalFlightsTaxtotal * 100) / 100);
   }
 
   changeFlightTypeReturn() {

@@ -51,7 +51,7 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <mat-form-field>
-          <mat-select formControlName="ticketsAmt"  placeholder="Amount of Tickets" required>
+          <mat-select formControlName="ticketsAmt"  placeholder="Number of Tickets" required>
             <mat-option *ngFor="let option of selectOptions" [value]="option.value" >
               {{ option.viewValue }}
             </mat-option>
@@ -105,15 +105,18 @@
       <li class="list-group-item" *ngFor="let r of flightData; let i = index">
         <h2 *ngIf="i == 0">Departure Flight:</h2>
         <h2 *ngIf="i == 1">Return Flight:</h2>
-        <p> <span class="font-weight-bold">{{r.flightId}}</span>
-        <p> <span class="font-weight-bold">{{r.departureLocation}}</span> to <span class="font-weight-bold">{{r.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ r.flightTimeLength }} Hours <p>
+        <p> <span class="font-weight-bold">Flight Id: {{r.flightId}}</span></p>
+        <p> <span class="font-weight-bold">Number of Tickets: {{r.ticketsAmt}}</span></p>
+        <p> <span class="font-weight-bold">{{r.departureLocation}}</span> to <span class="font-weight-bold">{{r.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ r.flightTimeLength }} Hours </p>
         <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ r.departureTime | date:'medium' }}</p>
         <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ r.arrivalTime | date:'medium' }} </p>
         <br>
-        <span class="font-weight-bold">Price:</span> {{ r.flightPrice | currency }}
+        <span class="font-weight-bold">Price per ticket:</span> {{ r.flightPrice | currency }}
       </li>
       <li class="list-group-item">
-        <h3>Total Price: {{ totalFlightsCost | currency}}</h3>
+        <p>Subtotal: {{ totalFlightsSubtotal | currency}}</p>
+        <p>Tax: {{ totalFlightsTaxtotal | currency}}</p>
+        <p>Total Price: {{ totalFlightsCost | currency}}</p>
         <p>Thank you for flying with Zzpace!</p>
       </li>
     </ul>

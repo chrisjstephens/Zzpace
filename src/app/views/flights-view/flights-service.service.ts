@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse } from '@angular/common/http'
-// import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +8,21 @@ export class FlightsService {
 
   constructor() { }
 
-  private flightLength:number = Math.floor(Math.random() * 41) + 40;
+  flightLength:number = Math.floor(Math.random() * 41) + 40;
 
   public getDepartureFlightStatus(obj):object {
-    console.log('flightInfo', obj);
-
     const departureTimes = [6, 10, 14, 18, 22];
 
-    let flightLength = this.flightLength;
-    let flightInfo = obj;
+    const flightLength = this.flightLength;
+    const flightInfo = obj;
 
-    let departureDate = obj.departureDate;
-    let returnDate = obj.returnDate;
+    const departureDate = flightInfo.departureDate;
+    const returnDate = flightInfo.returnDate;
 
-    let fromLocation = obj.fromLocation;
-    let toLocation = obj.toLocation;
+    const fromLocation = flightInfo.fromLocation;
+    const toLocation = flightInfo.toLocation;
+
+    const ticketsAmt = flightInfo.ticketsAmt;
 
     const flightTime6 = departureTimes[0];
     const departureTime6 = this.getDepartureTime(departureDate , flightTime6);
@@ -40,61 +39,69 @@ export class FlightsService {
     const flightTime22 = departureTimes[4];
     const departureTime22 = this.getDepartureTime(departureDate , flightTime22);
 
-    let flightObj = [
+    const flightObj = [
       this.createFlightObj(this.getFlightId(fromLocation, 1, toLocation, departureDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime6, flightTime6, flightLength),
-        this.getDepartureTime(departureDate , flightTime6), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(departureDate , flightTime6))
+        this.getDepartureTime(departureDate , flightTime6),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(departureDate , flightTime6)),
+        ticketsAmt
       ),
       this.createFlightObj(this.getFlightId(fromLocation, 2, toLocation, departureDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime10, flightTime10, flightLength),
-        this.getDepartureTime(departureDate , flightTime10), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(departureDate , flightTime10))
+        this.getDepartureTime(departureDate , flightTime10),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(departureDate , flightTime10)),
+        ticketsAmt
       ),
       this.createFlightObj(this.getFlightId(fromLocation, 3, toLocation, departureDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime14, flightTime14, flightLength),
-        this.getDepartureTime(departureDate, flightTime14), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(departureDate, flightTime14))
+        this.getDepartureTime(departureDate, flightTime14),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(departureDate, flightTime14)),
+        ticketsAmt
       ),
       this.createFlightObj(this.getFlightId(fromLocation, 4, toLocation, departureDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime18, flightTime18, flightLength),
-        this.getDepartureTime(departureDate, flightTime18), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(departureDate, flightTime18))
+        this.getDepartureTime(departureDate, flightTime18),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(departureDate, flightTime18)),
+        ticketsAmt
       ),
       this.createFlightObj(this.getFlightId(fromLocation, 5, toLocation, departureDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime22, flightTime22, flightLength),
-        this.getDepartureTime(departureDate , flightTime22), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(departureDate ,flightTime22))
+        this.getDepartureTime(departureDate , flightTime22),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(departureDate ,flightTime22)),
+        ticketsAmt
       ) ];
 
     return flightObj;
-
   }
 
   public getReturnFlightStatus(obj):object {
-    console.log('flightInfo', obj);
-
     const returnTimes = [7, 11, 15, 19, 23];
 
-    let flightLength = this.flightLength;
-    let flightInfo = obj;
+    const flightLength = this.flightLength;
+    const flightInfo = obj;
 
-    let departureDate = obj.departureDate;
-    let returnDate = obj.returnDate;
+    const departureDate = flightInfo.departureDate;
+    const returnDate = flightInfo.returnDate;
 
-    let fromLocation = obj.toLocation;
-    let toLocation = obj.fromLocation;
+    const fromLocation = flightInfo.toLocation;
+    const toLocation = flightInfo.fromLocation;
 
+    const ticketsAmt = flightInfo.ticketsAmt;
 
     const flightTime7 = returnTimes[0];
     const departureTime7 = this.getDepartureTime(returnDate , flightTime7);
@@ -111,57 +118,68 @@ export class FlightsService {
     const flightTime23 = returnTimes[4];
     const departureTime23 = this.getDepartureTime(returnDate , flightTime23);
 
-    let flightObj = [
+    const flightObj = [
       this.createFlightObj(this.getFlightId(fromLocation, 1, toLocation, returnDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime7, flightTime7, flightLength),
-        this.getDepartureTime(returnDate , flightTime7), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(returnDate , flightTime7))
+        this.getDepartureTime(returnDate , flightTime7),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(returnDate , flightTime7)),
+        ticketsAmt
       ),
       this.createFlightObj(this.getFlightId(fromLocation, 2, toLocation, returnDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime11, flightTime11, flightLength),
-        this.getDepartureTime(returnDate , flightTime11), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(returnDate , flightTime11))
+        this.getDepartureTime(returnDate , flightTime11),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(returnDate , flightTime11)),
+        ticketsAmt
       ),
       this.createFlightObj(this.getFlightId(fromLocation, 3, toLocation, returnDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime15, flightTime15, flightLength),
-        this.getDepartureTime(returnDate, flightTime15), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(returnDate, flightTime15))
+        this.getDepartureTime(returnDate, flightTime15),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(returnDate, flightTime15)),
+        ticketsAmt
       ),
       this.createFlightObj(this.getFlightId(fromLocation, 4, toLocation, returnDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime19, flightTime19, flightLength),
-        this.getDepartureTime(returnDate, flightTime19), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(returnDate, flightTime19))
+        this.getDepartureTime(returnDate, flightTime19),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(returnDate, flightTime19)),
+        ticketsAmt
       ),
       this.createFlightObj(this.getFlightId(fromLocation, 5, toLocation, returnDate),
         toLocation,
         fromLocation,
         this.getArrivalTime(departureTime23, flightTime23, flightLength),
-        this.getDepartureTime(returnDate , flightTime23), flightLength,
-        this.calculateFlightPrice(this.getDepartureTime(returnDate ,flightTime23))
+        this.getDepartureTime(returnDate , flightTime23),
+        flightLength,
+        this.calculateFlightPrice(this.getDepartureTime(returnDate ,flightTime23)),
+        ticketsAmt
       ) ];
 
     return flightObj;
   }
 
-  private createFlightObj(flightId:string, toLocation:string, fromLocation:string, arrivalTime:Date, departureTime:Date, flightTimeLength:number, flightPrice:number):object {
-      var x = {
+  private createFlightObj(flightId:string, toLocation:string, fromLocation:string, arrivalTime:Date, departureTime:Date, flightTimeLength:number, flightPrice:number, ticketsAmt:number):object {
+      let flightObj = {
       "flightId" : flightId,
       "arrivalLocation" : toLocation,
       "departureLocation" : fromLocation,
       "arrivalTime" : arrivalTime,
       "departureTime" : departureTime,
       "flightTimeLength" : flightTimeLength,
-      "flightPrice" : flightPrice
+      "flightPrice" : flightPrice,
+      "ticketsAmt" : ticketsAmt
       };
-    return x;
+    return flightObj;
   }
 
   private getDepartureTime(date:number, hours:number):Date {
@@ -179,7 +197,7 @@ export class FlightsService {
   }
 
   private getFlightId(fromLocation:string, flightNumber:number, toLocation:string, departureDate: Date) {
-    let flightId = fromLocation.substring(0,2).toUpperCase() + '-' + flightNumber + '-' + toLocation.substring(0,2).toUpperCase() + '-' + + departureDate.getMonth() + departureDate.getDate() + departureDate.getFullYear().toString().substring(2,4);
+    const flightId = fromLocation.substring(0,2).toUpperCase() + '-' + flightNumber + '-' + toLocation.substring(0,2).toUpperCase() + '-' + + departureDate.getMonth() + departureDate.getDate() + departureDate.getFullYear().toString().substring(2,4);
 
     return flightId;
   }

@@ -45,6 +45,12 @@ export class FlightsViewComponent implements OnInit {
     },
     {
       name: 'Planet-X'
+    },
+    {
+      name: 'Pluto'
+    },
+    {
+      name: 'Saturn'
     }
   ];
 
@@ -163,12 +169,12 @@ export class FlightsViewComponent implements OnInit {
   }
 
   calculateFlightCosts() {
-    const taxAmt = 0.15
+    const taxAmt = 0.15;
     const departureFlightCost = this.flightData[0].flightPrice ? this.flightData[0].flightPrice : 0;
     const returnFlightCost = this.flightData[1] ? this.flightData[1].flightPrice : 0;
     const ticketsAmt = this.flightsForm.value.ticketsAmt;
 
-    this.totalFlightsSubtotal = (departureFlightCost + returnFlightCost) * ticketsAmt);
+    this.totalFlightsSubtotal = (departureFlightCost + returnFlightCost) * ticketsAmt;
     this.totalFlightsTaxtotal = (+this.totalFlightsSubtotal) * taxAmt;
     this.totalFlightsCost = (Math.round(this.totalFlightsSubtotal * 100) / 100)  + (Math.round(this.totalFlightsTaxtotal * 100) / 100);
   }

@@ -1,3 +1,3 @@
 export class Locations {
-  public name: string
+  public name: string;
 }

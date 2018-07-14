@@ -10,7 +10,7 @@ export class DatePickerComponent implements OnInit {
   minDate = new Date();
   maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
-  //TODO: Departure Date must be < Return Date
+  // TODO: Departure Date must be < Return Date
 
   constructor() { }
 

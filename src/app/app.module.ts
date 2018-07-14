@@ -44,7 +44,7 @@ import {
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppRoutesModule } from './app-routes.module'
+import { AppRoutesModule } from './app-routes.module';
 import { AppComponent } from './app.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { LocationPickerComponent } from './components/location-picker/location-picker.component';

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators'
+import { map, startWith } from 'rxjs/operators';
 
-import { FlightsService } from "./flights-service.service";
+import { FlightsService } from './flights-service.service';
 
-import { Locations } from "../../models/locations.model";
-import { FlightData } from "../../models/flightData.model";
+import { Locations } from '../../models/locations.model';
+import { FlightData } from '../../models/flightData.model';
 
 @Component({
   selector: 'app-flights-view',
@@ -18,17 +18,17 @@ export class FlightsViewComponent implements OnInit {
   flightsForm: FormGroup;
   locationCtrl: FormControl;
   filteredLocations: Observable<any[]>;
-  displayResults: boolean = false;
-  displayArrivalResults: boolean = false;
-  displayDepartureResults: boolean = false;
-  displayReturnResults: boolean = false;
-  displayFlightPicked: boolean = false;
-  returnFlightType: boolean = true;
-  oneWayFlightType: boolean = false;
+  displayResults = false;
+  displayArrivalResults = false;
+  displayDepartureResults = false;
+  displayReturnResults = false;
+  displayFlightPicked = false;
+  returnFlightType = true;
+  oneWayFlightType = false;
   departureflightResults: object;
   returnFlightResults: object;
   flightData: FlightData[];
-  loadingScreen: boolean = false;
+  loadingScreen = false;
   totalFlightsCost: number;
   totalFlightsSubtotal: number;
   totalFlightsTaxtotal: number;
@@ -111,7 +111,7 @@ export class FlightsViewComponent implements OnInit {
 
   locationPickerCheck() {
     const hasValues = this.flightsForm.value.fromLocation && this.flightsForm.value.toLocation;
-    const invalidLocations = this.flightsForm.value.fromLocation == this.flightsForm.value.toLocation;
+    const invalidLocations = this.flightsForm.value.fromLocation === this.flightsForm.value.toLocation;
 
     if (hasValues && invalidLocations) {
       this.flightsForm.controls.toLocation.setErrors({
@@ -126,7 +126,7 @@ export class FlightsViewComponent implements OnInit {
     this.displayResults = true;
     this.loadingScreen = true;
 
-    setTimeout(function(e){
+    setTimeout(function(e) {
       this.loadingScreen = false;
       this.displayDepartureResults = true;
     }.bind(this), 3000);
@@ -145,7 +145,7 @@ export class FlightsViewComponent implements OnInit {
     if (this.returnFlightType) {
       this.loadingScreen = true;
 
-      setTimeout(function(e){
+      setTimeout(function(e) {
         this.loadingScreen = false;
         this.displayArrivalResults = true;
       }.bind(this), 3000);
@@ -191,7 +191,7 @@ export class FlightsViewComponent implements OnInit {
     this.flightsForm.controls.returnDate.disable();
   }
 
-  getReturnFlightType():boolean {
+  getReturnFlightType(): boolean {
     return this.returnFlightType;
   }
 }

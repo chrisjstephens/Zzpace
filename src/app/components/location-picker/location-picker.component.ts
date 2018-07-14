@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators'
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-location-picker',
@@ -11,7 +11,7 @@ import {map, startWith} from 'rxjs/operators'
 })
 
 export class LocationPickerComponent implements OnInit {
-  //TODO: From must not be same as To
+  // TODO: From must not be same as To
 
   @Input() private placeholder: string;
   @Input() private formControlName: string;

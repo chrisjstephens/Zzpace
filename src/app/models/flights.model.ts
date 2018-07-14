@@ -1,4 +1,4 @@
-export class flights {
+export class Flights {
   constructor(public fromLocation: string,
     public toLocation: string,
     public departureDate: string,

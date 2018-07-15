@@ -7,7 +7,6 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <!-- <app-location-picker [placeholder]="'From'" [formControlName]="'fromLocation'"></app-location-picker> -->
         <mat-form-field class="example-full-width">
          <input formControlName="fromLocation" matInput type="text" class="form-control" placeholder="From" aria-label="From" [matAutocomplete]="auto" required>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="locationPickerCheck($event)">
@@ -31,7 +30,6 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <!-- <app-date-picker [placeholder]="'Departure Date'"></app-date-picker> -->
         <mat-form-field class="form-control">
           <input matInput formControlName="departureDate" [matDatepicker]="picker" placeholder="Departure Date" [min]="minDateDeparture" [max]="maxDateDeparture" (dateChange)="dateCheck()" required>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -39,7 +37,6 @@
         </mat-form-field>
       </div>
       <div class="form-group col-md-4">
-        <!--<app-date-picker [placeholder]="'Return Date'"></app-date-picker>-->
         <mat-form-field class="form-control" *ngIf="returnFlightType">
           <input matInput formControlName="returnDate" [matDatepicker]="picker2" placeholder="Return Date" [min]="minDateReturn" [max]="maxDateReturn" (dateChange)="dateCheck()"  required>
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -73,28 +70,28 @@
     <div *ngIf="displayDepartureResults">
       <h1> Please pick a departure flight! </h1>
       <ul class="list-group">
-        <li class="list-group-item" *ngFor="let r of departureflightResults">
-          <p> <span class="font-weight-bold">{{r.flightId}}</span>
-          <p> <span class="font-weight-bold">{{r.departureLocation}}</span> to <span class="font-weight-bold">{{r.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ r.flightTimeLength }} Hours <p>
-          <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ r.departureTime | date:'medium' }}</p>
-          <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ r.arrivalTime | date:'medium' }} </p>
+        <li class="list-group-item" *ngFor="let departureFlights of departureflightResults">
+          <p> <span class="font-weight-bold">{{departureFlights.flightId}}</span>
+          <p> <span class="font-weight-bold">{{departureFlights.departureLocation}}</span> to <span class="font-weight-bold">{{departureFlights.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ departureFlights.flightTimeLength }} Hours <p>
+          <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ departureFlights.departureTime | date:'medium' }}</p>
+          <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ departureFlights.arrivalTime | date:'medium' }} </p>
           <br>
-          <span class="font-weight-bold">Price:</span> {{ r.flightPrice | currency }}
-          <button type="button" class="btn btn-primary float-right" (click)="pickDepartureFlight(r.flightId, r)">Select</button>
+          <span class="font-weight-bold">Price:</span> {{ departureFlights.flightPrice | currency }}
+          <button type="button" class="btn btn-primary float-right" (click)="pickDepartureFlight(departureFlights.flightId, departureFlights)">Select</button>
         </li>
       </ul>
     </div>
     <div *ngIf="returnFlightType && displayArrivalResults">
       <h1> Please pick a return flight!</h1>
       <ul class="list-group">
-        <li class="list-group-item" *ngFor="let r of returnFlightResults">
-          <p> <span class="font-weight-bold">{{r.flightId}}</span>
-          <p> <span class="font-weight-bold">{{r.departureLocation}}</span> to <span class="font-weight-bold">{{r.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ r.flightTimeLength }} Hours <p>
-          <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ r.departureTime | date:'medium' }}</p>
-          <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ r.arrivalTime | date:'medium' }} </p>
+        <li class="list-group-item" *ngFor="let returnFlights of returnFlightResults">
+          <p> <span class="font-weight-bold">{{returnFlights.flightId}}</span>
+          <p> <span class="font-weight-bold">{{returnFlights.departureLocation}}</span> to <span class="font-weight-bold">{{returnFlights.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ returnFlights.flightTimeLength }} Hours <p>
+          <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ returnFlights.departureTime | date:'medium' }}</p>
+          <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ returnFlights.arrivalTime | date:'medium' }} </p>
           <br>
-          <span class="font-weight-bold">Price:</span> {{ r.flightPrice | currency }}
-          <button type="button" class="btn btn-primary float-right" (click)="pickReturnFlight(r.flightId, r)">Select</button>
+          <span class="font-weight-bold">Price:</span> {{ returnFlights.flightPrice | currency }}
+          <button type="button" class="btn btn-primary float-right" (click)="pickReturnFlight(returnFlights.flightId, returnFlights)">Select</button>
         </li>
       </ul>
     </div>
@@ -102,16 +99,16 @@
   <div *ngIf="displayFlightPicked">
     <h1>Congrats for your booking!</h1>
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let r of flightData; let i = index">
+      <li class="list-group-item" *ngFor="let flightData of flightData; let i = index">
         <h2 *ngIf="i == 0">Departure Flight:</h2>
         <h2 *ngIf="i == 1">Return Flight:</h2>
-        <p> <span class="font-weight-bold">Flight Id: {{r.flightId}}</span></p>
-        <p> <span class="font-weight-bold">Number of Tickets: {{r.ticketsAmt}}</span></p>
-        <p> <span class="font-weight-bold">{{r.departureLocation}}</span> to <span class="font-weight-bold">{{r.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ r.flightTimeLength }} Hours </p>
-        <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ r.departureTime | date:'medium' }}</p>
-        <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ r.arrivalTime | date:'medium' }} </p>
+        <p> <span class="font-weight-bold">Flight Id: {{flightData.flightId}}</span></p>
+        <p> <span class="font-weight-bold">Number of Tickets: {{flightData.ticketsAmt}}</span></p>
+        <p> <span class="font-weight-bold">{{flightData.departureLocation}}</span> to <span class="font-weight-bold">{{flightData.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ flightData.flightTimeLength }} Hours </p>
+        <p class="mb-1"><span class="font-weight-bold">Departure:</span> {{ flightData.departureTime | date:'medium' }}</p>
+        <p class="mb-1"><span class="font-weight-bold">Arrival:</span> {{ flightData.arrivalTime | date:'medium' }} </p>
         <br>
-        <span class="font-weight-bold">Price per ticket:</span> {{ r.flightPrice | currency }}
+        <span class="font-weight-bold">Price per ticket:</span> {{ flightData.flightPrice | currency }}
       </li>
       <li class="list-group-item">
         <p>Subtotal: {{ totalFlightsSubtotal | currency}}</p>

@@ -11,6 +11,6 @@ export class LocationService {
   }
 
   public getJSON(): Observable<any> {
-        return this.http.get("./assets/locations.json");
+        return this.http.get('./assets/locations.json');
   }
 }

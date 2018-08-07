@@ -35,26 +35,6 @@ export class FlightsViewComponent implements OnInit {
   totalFlightsSubtotal: number;
   totalFlightsTaxtotal: number;
 
-  // locations: Locations[] = [
-  //   {
-  //     name: 'Earth'
-  //   },
-  //   {
-  //     name: 'Jupiter'
-  //   },
-  //   {
-  //     name: 'Mars'
-  //   },
-  //   {
-  //     name: 'Planet-X'
-  //   },
-  //   {
-  //     name: 'Pluto'
-  //   },
-  //   {
-  //     name: 'Saturn'
-  //   }
-  // ];
 
   locations: Locations[] = [];
   obsLocations$: Observable<Locations[]>;
@@ -75,16 +55,6 @@ export class FlightsViewComponent implements OnInit {
   maxDateReturn = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
   constructor(private fb: FormBuilder, private flightsService: FlightsService, private locationService: LocationService) {
-
-    // this.locationCtrl = new FormControl();
-    //
-    // this.filteredLocations = this.locationCtrl.valueChanges
-    //   .pipe(
-    //     startWith(''),
-    //     map(location => location ? this.filterLocations(location) : this.locations.slice())
-    //   );
-    //   console.log('fl type', typeof(this.filteredLocations));
-    //   console.log('fl', this.filteredLocations);
     this.createForm();
   }
 

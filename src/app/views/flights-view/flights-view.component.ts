@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import { FlightsService } from './flights-service.service';
+import { LocationService } from '../../services/location.service';
 
 import { Locations } from '../../models/locations.model';
 import { FlightData } from '../../models/flightData.model';
@@ -33,26 +35,29 @@ export class FlightsViewComponent implements OnInit {
   totalFlightsSubtotal: number;
   totalFlightsTaxtotal: number;
 
-  locations: Locations[] = [
-    {
-      name: 'Earth'
-    },
-    {
-      name: 'Jupiter'
-    },
-    {
-      name: 'Mars'
-    },
-    {
-      name: 'Planet-X'
-    },
-    {
-      name: 'Pluto'
-    },
-    {
-      name: 'Saturn'
-    }
-  ];
+  // locations: Locations[] = [
+  //   {
+  //     name: 'Earth'
+  //   },
+  //   {
+  //     name: 'Jupiter'
+  //   },
+  //   {
+  //     name: 'Mars'
+  //   },
+  //   {
+  //     name: 'Planet-X'
+  //   },
+  //   {
+  //     name: 'Pluto'
+  //   },
+  //   {
+  //     name: 'Saturn'
+  //   }
+  // ];
+
+  locations: Locations[] = [];
+  obsLocations$: Observable<Locations[]>;
 
   selectOptions = [
     {value: '1', viewValue: '1'},
@@ -69,19 +74,24 @@ export class FlightsViewComponent implements OnInit {
   minDateReturn = new Date();
   maxDateReturn = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
-  constructor(private fb: FormBuilder, private flightsService: FlightsService) {
+  constructor(private fb: FormBuilder, private flightsService: FlightsService, private locationService: LocationService) {
 
-    this.locationCtrl = new FormControl();
-    this.filteredLocations = this.locationCtrl.valueChanges
-      .pipe(
-        startWith(''),
-        map(location => location ? this.filterLocations(location) : this.locations.slice())
-      );
-
+    // this.locationCtrl = new FormControl();
+    //
+    // this.filteredLocations = this.locationCtrl.valueChanges
+    //   .pipe(
+    //     startWith(''),
+    //     map(location => location ? this.filterLocations(location) : this.locations.slice())
+    //   );
+    //   console.log('fl type', typeof(this.filteredLocations));
+    //   console.log('fl', this.filteredLocations);
     this.createForm();
   }
 
   ngOnInit() {
+    this.locationService.getJSON().subscribe( data => {
+      this.locations = data.locations;
+    });
   }
 
   createForm() {
@@ -133,6 +143,7 @@ export class FlightsViewComponent implements OnInit {
   }
 
   filterLocations(name: string) {
+    console.log('locations', name);
     return this.locations.filter(location =>
       location.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }

@@ -47,7 +47,6 @@ export class LocationPickerComponent implements OnInit {
         startWith(''),
         map(location => location ? this.filterLocations(location) : this.locations.slice())
       );
-      console.log('formCtrlName', this.formControlName);
   }
 
   filterLocations(name: string) {

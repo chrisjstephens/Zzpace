@@ -1,0 +1,22 @@
+{
+  "locations" : [
+    {
+      "name": "Earth"
+    },
+    {
+      "name": "Jupiter"
+    },
+    {
+      "name": "Mars"
+    },
+    {
+      "name": "Planet-X"
+    },
+    {
+      "name": "Pluto"
+    },
+    {
+      "name": "Saturn"
+    }
+]
+}

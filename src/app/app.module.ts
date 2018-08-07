@@ -56,6 +56,7 @@ import { TeleportationViewComponent } from './views/teleportation-view/teleporta
 import { HeaderViewComponent } from './views/header-view/header-view.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
+import { LocationService } from './services/location.service';
 import { FlightsService } from './views/flights-view/flights-service.service';
 
 
@@ -126,7 +127,7 @@ export class MaterialModule {}
     NgbModule,
     ReactiveFormsModule
   ],
-  providers: [FlightsService],
+  providers: [FlightsService, LocationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

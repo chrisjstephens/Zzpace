@@ -1,0 +1,11 @@
+Todo List:
+Short term list of features to add to the project
+
+-Third party example of httpclient/observables for form values (Added August 8th)
+-Add tests (Added August 8th)
+-User Login (Added August 8th)
+-User Details (Customer Details, Flight History, etc) (Added August 8th)
+-Ability to edit past booked flights (changed time, seat, etc) (Added August 8th)
+-Add Mongodb examples to project for data storage (Added August 8th)
+-Add more observables to project (Added August 8th)
+-Add Hotels/Teleportation page (Added August 8th)

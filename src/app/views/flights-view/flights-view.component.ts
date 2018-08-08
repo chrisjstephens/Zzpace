@@ -34,10 +34,8 @@ export class FlightsViewComponent implements OnInit {
   totalFlightsCost: number;
   totalFlightsSubtotal: number;
   totalFlightsTaxtotal: number;
-
-
   locations: Locations[] = [];
-  obsLocations$: Observable<Locations[]>;
+
 
   selectOptions = [
     {value: '1', viewValue: '1'},

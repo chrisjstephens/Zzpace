@@ -57,8 +57,7 @@ import { HeaderViewComponent } from './views/header-view/header-view.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 import { LocationService } from './services/location.service';
-import { FlightsService } from './views/flights-view/flights-service.service';
-
+import { ProcessFlightsService } from './services/process-flights.service';
 
 
 @NgModule({
@@ -127,7 +126,7 @@ export class MaterialModule {}
     NgbModule,
     ReactiveFormsModule
   ],
-  providers: [FlightsService, LocationService],
+  providers: [LocationService, ProcessFlightsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,7 @@
-<form [formGroup]="flightsForm" (ngSubmit)="onSubmit()">
+<div *ngIf="flightsDataError">
+  <h1>Sorry an error occured, please try again!</h1>
+</div>
+<form [formGroup]="flightsForm" (ngSubmit)="onSubmit()" *ngIf="!flightsDataError">
   <div *ngIf="!loadingScreen && !displayDepartureResults && !displayArrivalResults && !displayFlightPicked">
     <h1>Flights</h1>
     <div class="btn-group pb-1" role="group" aria-label="Navigation buttons" >

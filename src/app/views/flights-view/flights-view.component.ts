@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
-import { FlightsService } from './flights-service.service';
 import { LocationService } from '../../services/location.service';
+import { ProcessFlightsService } from '../../services/process-flights.service';
 
 import { Locations } from '../../models/locations.model';
 import { FlightData } from '../../models/flightData.model';
@@ -35,6 +35,7 @@ export class FlightsViewComponent implements OnInit {
   totalFlightsSubtotal: number;
   totalFlightsTaxtotal: number;
   locations: Locations[] = [];
+  flightsDataError = false;
 
 
   selectOptions = [
@@ -52,7 +53,7 @@ export class FlightsViewComponent implements OnInit {
   minDateReturn = new Date();
   maxDateReturn = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
-  constructor(private fb: FormBuilder, private flightsService: FlightsService, private locationService: LocationService) {
+  constructor(private fb: FormBuilder, private locationService: LocationService, private processFlightsService: ProcessFlightsService) {
     this.createForm();
   }
 
@@ -99,7 +100,13 @@ export class FlightsViewComponent implements OnInit {
   }
 
   onSubmit() {
-    this.departureflightResults = this.flightsService.getDepartureFlightStatus(this.flightsForm.value);
+    const formData = this.createFlightFormPostData('departure', this.flightsForm.value);
+
+    this.processFlightsService.getJSON(formData)
+      .subscribe(
+        data => { this.departureflightResults = data; },
+        error => {  this.flightsDataError = true; }
+      );
 
     this.displayResults = true;
     this.loadingScreen = true;
@@ -110,8 +117,18 @@ export class FlightsViewComponent implements OnInit {
     }.bind(this), 3000);
   }
 
+  createFlightFormPostData(travelType: string, travelData: any): string {
+    const flightParamString = '?type=' + travelType +
+                        '&toLocation=' + travelData.fromLocation +
+                        '&fromLocation=' + travelData.toLocation +
+                        '&departureDate=' + travelData.departureDate +
+                        '&returnDate=' + travelData.returnDate +
+                        '&ticketsAmt=' + travelData.ticketsAmt;
+
+    return flightParamString;
+  }
+
   filterLocations(name: string) {
-    console.log('locations', name);
     return this.locations.filter(location =>
       location.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
@@ -129,7 +146,14 @@ export class FlightsViewComponent implements OnInit {
         this.displayArrivalResults = true;
       }.bind(this), 3000);
 
-      this.returnFlightResults = this.flightsService.getReturnFlightStatus(this.flightsForm.value);
+      const formData = this.createFlightFormPostData('return', this.flightsForm.value);
+
+      this.processFlightsService.getJSON(formData)
+        .subscribe(
+          data => { this.returnFlightResults = data; },
+          error => { this.flightsDataError = true; }
+        );
+
     } else {
       this.calculateFlightCosts();
       this.displayArrivalResults = false;

@@ -46,9 +46,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutesModule } from './app-routes.module';
 import { AppComponent } from './app.component';
-import { DatePickerComponent } from './components/date-picker/date-picker.component';
-import { LocationPickerComponent } from './components/location-picker/location-picker.component';
-import { TicketSelectComponent } from './components/ticket-select/ticket-select.component';
 import { FlightsViewComponent } from './views/flights-view/flights-view.component';
 import { HomeViewComponent } from './views/home-view/home-view.component';
 import { HotelsViewComponent } from './views/hotels-view/hotels-view.component';
@@ -106,15 +103,12 @@ export class MaterialModule {}
 @NgModule({
   declarations: [
     AppComponent,
-    DatePickerComponent,
     HeaderViewComponent,
     HomeViewComponent,
     HotelsViewComponent,
     FlightsViewComponent,
-    LocationPickerComponent,
     PageNotFoundComponent,
-    TeleportationViewComponent,
-    TicketSelectComponent
+    TeleportationViewComponent
   ],
   imports: [
     AppRoutesModule,

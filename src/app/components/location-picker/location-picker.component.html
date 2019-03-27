@@ -1,8 +1,0 @@
-<mat-form-field class="example-full-width">
-  <input matInput type="text" class="form-control" placeholder={{placeholder}} aria-label="" [matAutocomplete]="auto"  formControlName={{formControlName}}>
-  <mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let location of filteredLocations | async" [value]="location.name">
-      <span>{{ location.name }}</span>
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>

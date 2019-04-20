@@ -1,4 +1,87 @@
-<h1>Hotels</h1>
-<p>
-  Coming soon!
-</p>
+<div *ngIf="hotelsDataError">
+  <h1>Sorry an error occured, please try again!</h1>
+</div>
+<form [formGroup]="hotelsForm" (ngSubmit)="onSubmit()" *ngIf="!hotelsDataError">
+  <div *ngIf="!loadingScreen && !displayHotelFirstResults && !displayHotelSecondResults && !displayFinalHotelResults">
+    <h1>Hotels</h1>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <mat-form-field class="example-full-width">
+         <input formControlName="hotelLocation" matInput type="text" class="form-control" placeholder="Hotel Location" aria-label="Hotel Location" [matAutocomplete]="auto" required>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let location of locations" [value]="location.name">
+              <span>{{ location.name }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <mat-form-field class="form-control">
+          <input matInput formControlName="checkInDate" [matDatepicker]="picker" placeholder="Check-in" [min]="minDateCheckIn" [max]="maxDateCheckIn" (dateChange)="dateCheck()" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-4">
+        <mat-form-field class="form-control">
+          <input matInput formControlName="checkOutDate" [matDatepicker]="picker2" placeholder="Check-out" [min]="minDateCheckOut" [max]="maxDateCheckOut" (dateChange)="dateCheck()"  required>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <p class="text-danger px-1" *ngIf="hotelsForm.controls.checkOutDate.errors?.invalidDates">The check-out date must be before the return date.</p>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <button type="submit" mat-raised-button [disabled]="!hotelsForm.valid">Search</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="displayResults">
+    <div *ngIf="loadingScreen">
+        <h1>Loading Hotels...</h1>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="displayHotelFirstResults">
+      <h1>Please pick your hotel!</h1>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let hR of hotelsResults">
+          <p> <span class="font-weight-bold">{{hR.hotelName}}-{{hR.hotelLocation}} </span> - {{hR.rating}} Stars </p>
+          <p> <span class="font-weight-bold">Price:</span> {{hR.price | currency}} per night </p>
+          <button type="button" class="btn btn-primary float-right" (click)="pickHotel(hR)">Select</button>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="displayHotelSecondResults">
+      <h1>Please pick your hotel room type!</h1>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let hR of hotelRoomTypeResults">
+          <p> <span class="font-weight-bold">Room Type:</span> {{hR.roomType}} </p>
+          <p> {{hR.description}} </p>
+          <p> <span class="font-weight-bold">Price:</span> {{hR.price | currency}} per night </p>
+          <button type="button" class="btn btn-primary float-right" (click)="pickHotelRoomType(hR)">Select</button>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="displayFinalHotelResults">
+      <h1>Congrats for your booking!</h1>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <h2>Hotel Booking:</h2>
+            <p> <span class="font-weight-bold">Hotel Name: </span>{{hotelRoomData.hotelName}}-{{hotelRoomData.hotelLocation}} - {{hotelRoomData.roomType}}</p>
+            <p> <span class="font-weight-bold">Check-in Date: </span>{{hotelsForm.value.checkInDate | date:'longDate' }}</p>
+            <p> <span class="font-weight-bold">Check-out Date: </span>{{hotelsForm.value.checkOutDate | date:'longDate'}} </p>
+            <p> <span class="font-weight-bold">Price: </span> {{hotelRoomData.price | currency}} per night</p>
+        </li>
+        <li class="list-group-item">
+          <p> <span class="font-weight-bold">Subtotal: </span> {{ totalHotelsSubtotal | currency}}</p>
+          <p> <span class="font-weight-bold">Tax: </span> {{ totalHotelsTaxtotal | currency}}</p>
+          <p> <span class="font-weight-bold">Total Price: </span>{{ totalHotelsCost | currency}}</p>
+          <p>Thank you for choosing your hotels with Zzpace!</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</form>

@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { HomeViewComponent } from './home-view.component';
+import { PlanetCardsComponent } from '../../components/planet-cards/planet-cards.component';
 
 describe('HomeViewComponent', () => {
   let component: HomeViewComponent;
@@ -8,7 +11,10 @@ describe('HomeViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeViewComponent ]
+      imports: [
+       HttpClientModule
+     ],
+      declarations: [ HomeViewComponent, PlanetCardsComponent ]
     })
     .compileComponents();
   }));

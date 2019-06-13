@@ -1,0 +1,12 @@
+<div *ngIf="!planetCardsError">
+  <h2>At Zzpace you can travel to many places including:</h2>
+    <div class="planet-cards row no-gutters">
+      <div class="card col-md-4" *ngFor="let pcd of planetCardsData">
+        <img class="card-img-top planet-picture" src={{pcd.image}} alt="Card image cap"/>
+        <div class="card-body">
+          <h5 class="card-title">{{pcd.name}}</h5>
+          <p class="card-text">{{pcd.info}}</p>
+        </div>
+      </div>
+    </div>
+</div>

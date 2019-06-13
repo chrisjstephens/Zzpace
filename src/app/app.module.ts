@@ -16,10 +16,12 @@ import { HotelsViewComponent } from './views/hotels-view/hotels-view.component';
 import { TeleportationViewComponent } from './views/teleportation-view/teleportation-view.component';
 import { HeaderViewComponent } from './views/header-view/header-view.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { PlanetCardsComponent } from './components/planet-cards/planet-cards.component';
 
 import { LocationService } from './services/location.service';
 import { ProcessFlightsService } from './services/process-flights.service';
 import { ProcessHotelsService } from './services/process-hotels.service';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { ProcessHotelsService } from './services/process-hotels.service';
     HotelsViewComponent,
     FlightsViewComponent,
     PageNotFoundComponent,
+    PlanetCardsComponent,
     TeleportationViewComponent
   ],
   imports: [

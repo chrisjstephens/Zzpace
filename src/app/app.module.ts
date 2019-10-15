@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutesModule } from './app-routes.module';
 import { AppComponent } from './app.component';
+import { DailyDealComponent } from './components/daily-deal/daily-deal.component';
 import { FlightsViewComponent } from './views/flights-view/flights-view.component';
 import { HomeViewComponent } from './views/home-view/home-view.component';
 import { HotelsViewComponent } from './views/hotels-view/hotels-view.component';
@@ -23,9 +24,11 @@ import { ProcessFlightsService } from './services/process-flights.service';
 import { ProcessHotelsService } from './services/process-hotels.service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
+    DailyDealComponent,
     HeaderViewComponent,
     HomeViewComponent,
     HotelsViewComponent,

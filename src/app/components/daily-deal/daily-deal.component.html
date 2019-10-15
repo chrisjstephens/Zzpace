@@ -1,0 +1,8 @@
+<div *ngIf="!dailyDealError && dailyDealData">
+  <h1>Today's Deal!</h1>
+    <div >
+      <div [className]="dailyDealData.type === 'NoDeal' ? 'alert alert-danger' : 'alert alert-info'">
+        {{dailyDealData.title}}
+      </div>
+    </div>
+</div>

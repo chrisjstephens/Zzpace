@@ -13,7 +13,7 @@ export class PlanetCardsComponent implements OnInit {
   constructor(private planetCardsService: PlanetCardsService) { }
 
   ngOnInit() {
-    //Get data from api, and return 3 random results
+    // Get data from api, and return 3 random results
     this.planetCardsService.getJSON()
       .subscribe(
         data => { this.planetCardsData = data.sort(() => Math.random() - 0.5).slice(0, 3); },

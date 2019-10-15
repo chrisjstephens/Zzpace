@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { HomeViewComponent } from './home-view.component';
 import { PlanetCardsComponent } from '../../components/planet-cards/planet-cards.component';
+import { DailyDealComponent } from '../../components/daily-deal/daily-deal.component';
 
 describe('HomeViewComponent', () => {
   let component: HomeViewComponent;
@@ -14,7 +15,7 @@ describe('HomeViewComponent', () => {
       imports: [
        HttpClientModule
      ],
-      declarations: [ HomeViewComponent, PlanetCardsComponent ]
+      declarations: [ HomeViewComponent, DailyDealComponent, PlanetCardsComponent ]
     })
     .compileComponents();
   }));

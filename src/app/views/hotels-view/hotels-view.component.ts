@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import { LocationService } from '../../services/location.service';
 import { ProcessHotelsService } from '../../services/process-hotels.service';
+import { DailyDealService } from '../../services/daily-deal.service';
 
+import { DailyDeal } from '../../models/dailyDeal.model';
+import { DiscountData } from '../../models/discountData.model';
 import { Locations } from '../../models/locations.model';
 
 @Component({
@@ -29,6 +33,9 @@ export class HotelsViewComponent implements OnInit {
   totalHotelsTaxtotal: number;
   totalHotelsCost: number;
   hotelRoomData: any;
+  dailyDealData: DailyDeal;
+  discountData: DiscountData;
+  dailyDealError = false;
 
   minDateCheckIn = new Date();
   maxDateCheckIn = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
@@ -36,7 +43,8 @@ export class HotelsViewComponent implements OnInit {
   minDateCheckOut = new Date();
   maxDateCheckOut = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
-  constructor(private fb: FormBuilder, private locationService: LocationService, private processHotelsService: ProcessHotelsService) {
+  constructor(private fb: FormBuilder, private locationService: LocationService,
+    private processHotelsService: ProcessHotelsService, private dailyDealService: DailyDealService) {
     this.createForm();
   }
 
@@ -44,6 +52,11 @@ export class HotelsViewComponent implements OnInit {
     this.locationService.getJSON().subscribe( data => {
       this.locations = data.locations;
     });
+
+    this.dailyDealService.getJSON().subscribe(
+      data => { this.dailyDealData = data; },
+      error => { this.dailyDealError = true; }
+    );
   }
 
   createForm() {
@@ -143,8 +156,17 @@ export class HotelsViewComponent implements OnInit {
         const hotelRoomCost = this.hotelRoomData.price;
         const hotelRoomNights = Math.floor((Date.parse(hotelForm.checkOutDate) - Date.parse(hotelForm.checkInDate)) / 86400000);
 
-        this.totalHotelsSubtotal = hotelRoomCost * hotelRoomNights;
+        this.calculateDiscount(hotelRoomCost * hotelRoomNights);
         this.totalHotelsTaxtotal = (+this.totalHotelsSubtotal) * taxAmt;
         this.totalHotelsCost = (Math.round(this.totalHotelsSubtotal * 100) / 100)  + (Math.round(this.totalHotelsTaxtotal * 100) / 100);
+      }
+
+      calculateDiscount(subTotal: number) {
+        if (!this.dailyDealError) {
+          this.discountData = this.dailyDealService.calculateDiscount(this.dailyDealData, 'Hotels', subTotal);
+          this.totalHotelsSubtotal = this.discountData.newTotal;
+        } else {
+          this.totalHotelsSubtotal = subTotal;
+        }
       }
 }

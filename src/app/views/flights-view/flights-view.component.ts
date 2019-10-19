@@ -7,7 +7,10 @@ import { map, startWith } from 'rxjs/operators';
 
 import { LocationService } from '../../services/location.service';
 import { ProcessFlightsService } from '../../services/process-flights.service';
+import { DailyDealService } from '../../services/daily-deal.service';
 
+import { DailyDeal } from '../../models/dailyDeal.model';
+import { DiscountData } from '../../models/discountData.model';
 import { Locations } from '../../models/locations.model';
 import { FlightData } from '../../models/flightData.model';
 
@@ -36,7 +39,9 @@ export class FlightsViewComponent implements OnInit {
   totalFlightsTaxtotal: number;
   locations: Locations[] = [];
   flightsDataError = false;
-
+  dailyDealData: DailyDeal;
+  discountData: DiscountData;
+  dailyDealError = false;
 
   selectOptions = [
     {value: '1', viewValue: '1'},
@@ -53,7 +58,8 @@ export class FlightsViewComponent implements OnInit {
   minDateReturn = new Date();
   maxDateReturn = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
-  constructor(private fb: FormBuilder, private locationService: LocationService, private processFlightsService: ProcessFlightsService) {
+  constructor(private fb: FormBuilder, private locationService: LocationService,
+    private processFlightsService: ProcessFlightsService, private dailyDealService: DailyDealService) {
     this.createForm();
   }
 
@@ -61,6 +67,11 @@ export class FlightsViewComponent implements OnInit {
     this.locationService.getJSON().subscribe( data => {
       this.locations = data.locations;
     });
+
+    this.dailyDealService.getJSON().subscribe(
+      data => { this.dailyDealData = data; },
+      error => { this.dailyDealError = true; }
+    );
   }
 
   createForm() {
@@ -177,7 +188,8 @@ export class FlightsViewComponent implements OnInit {
     const returnFlightCost = this.flightData[1] ? this.flightData[1].flightPrice : 0;
     const ticketsAmt = this.flightsForm.value.ticketsAmt;
 
-    this.totalFlightsSubtotal = (departureFlightCost + returnFlightCost) * ticketsAmt;
+    // this.totalFlightsSubtotal = this.calculateDiscount((departureFlightCost + returnFlightCost) * ticketsAmt);
+    this.calculateDiscount((departureFlightCost + returnFlightCost) * ticketsAmt);
     this.totalFlightsTaxtotal = (+this.totalFlightsSubtotal) * taxAmt;
     this.totalFlightsCost = (Math.round(this.totalFlightsSubtotal * 100) / 100)  + (Math.round(this.totalFlightsTaxtotal * 100) / 100);
   }
@@ -197,4 +209,14 @@ export class FlightsViewComponent implements OnInit {
   getReturnFlightType(): boolean {
     return this.returnFlightType;
   }
+
+  calculateDiscount(subTotal: number) {
+    if (!this.dailyDealError) {
+      this.discountData = this.dailyDealService.calculateDiscount(this.dailyDealData, 'Flights', subTotal);
+      this.totalFlightsSubtotal = this.discountData.newTotal;
+    } else {
+      this.totalFlightsSubtotal = subTotal;
+    }
+  }
+
 }

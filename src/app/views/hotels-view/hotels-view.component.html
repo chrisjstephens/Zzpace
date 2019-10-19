@@ -77,6 +77,7 @@
         </li>
         <li class="list-group-item">
           <p> <span class="font-weight-bold">Subtotal: </span> {{ totalHotelsSubtotal | currency}}</p>
+          <p *ngIf="discountData && discountData.discountAmount > 0"> Congrats you have saved {{ discountData.discountAmount | currency }} on your subtotal because of today's deal - {{ dailyDealData.title}} </p>
           <p> <span class="font-weight-bold">Tax: </span> {{ totalHotelsTaxtotal | currency}}</p>
           <p> <span class="font-weight-bold">Total Price: </span>{{ totalHotelsCost | currency}}</p>
           <p>Thank you for choosing your hotels with Zzpace!</p>

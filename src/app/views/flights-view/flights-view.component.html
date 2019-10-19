@@ -114,9 +114,10 @@
         <span class="font-weight-bold">Price per ticket:</span> {{ flightData.flightPrice | currency }}
       </li>
       <li class="list-group-item">
-        <p>Subtotal: {{ totalFlightsSubtotal | currency}}</p>
-        <p>Tax: {{ totalFlightsTaxtotal | currency}}</p>
-        <p>Total Price: {{ totalFlightsCost | currency}}</p>
+        <p> <span class="font-weight-bold">Subtotal: </span> {{ totalFlightsSubtotal | currency}}</p>
+        <p *ngIf="discountData && discountData.discountAmount > 0"> Congrats you have saved {{ discountData.discountAmount | currency }} on your subtotal because of today's deal - {{ dailyDealData.title}} </p>
+        <p> <span class="font-weight-bold">Tax: </span> {{ totalFlightsTaxtotal | currency }}</p>
+        <p> <span class="font-weight-bold">Total Price: </span> {{ totalFlightsCost | currency }}</p>
         <p>Thank you for flying with Zzpace!</p>
       </li>
     </ul>

@@ -1,0 +1,35 @@
+<div *ngIf="!username"> <!---->
+  <h1>Login into your account</h1>
+  <p>Please enter your credentials to access your Zzpace account!</p>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" > <!--  *ngIf="!flightsDataError" -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <mat-form-field appearance="standard">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" placeholder="Username">
+            <!-- <mat-hint>Username</mat-hint> -->
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <mat-form-field appearance="standard">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" placeholder="Password">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <button mat-stroked-button color="basic">
+          LOGIN
+        </button>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="error$ | async">
+      <div class="form-group">
+          <p class="text-danger px-1" > {{error$ | async}} </p>
+        </div>
+     </div>
+  </form>
+</div>

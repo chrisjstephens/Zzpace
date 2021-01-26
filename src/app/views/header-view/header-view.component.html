@@ -17,6 +17,18 @@
       <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" [routerLink]="['/teleportation']">Teleportation</a>
       </li>
+      <li className="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a *ngIf="!username; else elseUserName" class="nav-link d-block d-sm-block d-lg-none" [routerLink]="['/login']">Login</a>
+        <ng-template #elseUserName>
+          <a class="nav-link d-block d-sm-block d-lg-none" (click)="logoutClick()">Logout</a>
+        </ng-template>
+      </li>
     </ul>
+    <button mat-stroked-button color="primary" class="login-button d-none d-lg-block d-xl-block">
+      <a *ngIf="!username; else elseUserNameMobile" [routerLink]="['/login']"> Login </a>
+      <ng-template #elseUserNameMobile>
+        <a (click)="logoutClick()"> Logout </a>
+      </ng-template>
+    </button>
   </div>
 </nav>

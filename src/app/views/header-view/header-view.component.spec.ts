@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderViewComponent } from './header-view.component';
+import { loginReducer } from '../../store/login.reducer';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 
 describe('HeaderViewComponent', () => {
   let component: HeaderViewComponent;
@@ -13,7 +15,7 @@ describe('HeaderViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-       NgbModule, RouterModule, RouterTestingModule
+       NgbModule, RouterModule, RouterTestingModule, StoreModule.forRoot({login: loginReducer})
      ],
       declarations: [ HeaderViewComponent ]
     })

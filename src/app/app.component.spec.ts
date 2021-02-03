@@ -4,12 +4,13 @@ import { HeaderViewComponent } from './views/header-view/header-view.component';
 
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StoreModule } from '@ngrx/store';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-       NgbModule, RouterTestingModule
+       NgbModule, RouterTestingModule, StoreModule.forRoot({})
       ],
       declarations: [
         AppComponent, HeaderViewComponent

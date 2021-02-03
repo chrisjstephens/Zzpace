@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserComponent } from './user.component';
+import { loginReducer } from '../../store/login.reducer';
+
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -8,6 +13,9 @@ describe('UserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule, StoreModule.forRoot({login: loginReducer})
+      ],
       declarations: [ UserComponent ]
     })
     .compileComponents();

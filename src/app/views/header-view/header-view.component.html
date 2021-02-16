@@ -27,7 +27,7 @@
     <button mat-stroked-button color="primary" class="login-button d-none d-lg-block d-xl-block">
       <a *ngIf="!username; else elseUserNameMobile" [routerLink]="['/login']"> Login </a>
       <ng-template #elseUserNameMobile>
-        <a (click)="logoutClick()"> Logout </a>
+        <a (click)="logoutClick()" href>Logout</a>
       </ng-template>
     </button>
   </div>

@@ -17,6 +17,7 @@ import { FlightsViewComponent } from './views/flights-view/flights-view.componen
 import { HomeViewComponent } from './views/home-view/home-view.component';
 import { HotelsViewComponent } from './views/hotels-view/hotels-view.component';
 import { LoginViewComponent } from './views/login-view/login-view.component';
+import { RegisterViewComponent } from './views/register-view/register-view.component';
 import { TeleportationViewComponent } from './views/teleportation-view/teleportation-view.component';
 import { UserComponent } from './views/user-view/user.component';
 import { HeaderViewComponent } from './views/header-view/header-view.component';
@@ -41,6 +42,7 @@ export const metaReducers: MetaReducer<any>[] = [getStorageReducer];
     HotelsViewComponent,
     FlightsViewComponent,
     LoginViewComponent,
+    RegisterViewComponent,
     PageNotFoundComponent,
     PlanetCardsComponent,
     TeleportationViewComponent,

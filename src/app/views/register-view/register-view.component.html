@@ -1,0 +1,30 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+      <p>Please register with a username and password!</p>
+  </div>
+  <div class="form-row">
+      <div class="form-group">
+        <mat-form-field appearance="standard">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" placeholder="Username" required>
+          <mat-error *ngIf="registerForm.controls.username.errors?.minlength">Username must be at least 8 characters.</mat-error>
+        </mat-form-field>   
+      </div>
+  </div>
+  <div class="form-row">
+      <div class="form-group">
+        <mat-form-field appearance="standard">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Password" required>
+          <mat-error *ngIf="registerForm.controls.password.errors?.minlength">Password must be at least 8 characters.</mat-error>
+        </mat-form-field>
+      </div>
+  </div>
+  <div class="form-row">
+      <div class="form-group">
+        <button mat-stroked-button color="basic" [disabled]="!registerForm.valid">
+          REGISTER
+        </button>
+      </div>
+    </div>
+</form>

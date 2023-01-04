@@ -5,6 +5,7 @@ import { HomeViewComponent } from './views/home-view/home-view.component';
 import { HotelsViewComponent } from './views/hotels-view/hotels-view.component';
 import { FlightsViewComponent } from './views/flights-view/flights-view.component';
 import { LoginViewComponent } from './views/login-view/login-view.component';
+import { RegisterViewComponent } from './views/register-view/register-view.component';
 import { TeleportationViewComponent } from './views/teleportation-view/teleportation-view.component';
 import { UserComponent } from './views/user-view/user.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -16,6 +17,7 @@ const appRoutes: Routes = [
    { path: '', component: HomeViewComponent },
    { path: 'hotels', component: HotelsViewComponent },
    { path: 'login', component: LoginViewComponent },
+   { path: 'register', component: RegisterViewComponent },
    { path: 'flights', component: FlightsViewComponent },
    { path: 'teleportation', component: TeleportationViewComponent },
    { path: 'user', canActivate: [AuthGuardService], component: UserComponent },

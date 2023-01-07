@@ -1,5 +1,6 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="form-row">
+      <h1>New User Registration</h1>
       <p>Please register with a username and password!</p>
   </div>
   <div class="form-row">
@@ -27,4 +28,10 @@
         </button>
       </div>
     </div>
+    <div class="form-row">
+      <div class="form-group col-md-4"> 
+          <p *ngIf="newUserCreated">Congrats, new user created!</p>
+          <p *ngIf="newUserError">An error occured, please try again!</p>
+      </div>
+  </div>
 </form>

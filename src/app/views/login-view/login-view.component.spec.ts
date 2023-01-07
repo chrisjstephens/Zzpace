@@ -18,7 +18,8 @@ describe('LoginViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppMaterialModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ReactiveFormsModule, RouterTestingModule, StoreModule.forRoot({login: loginReducer})
+        AppMaterialModule, BrowserAnimationsModule, FormsModule, HttpClientModule,
+        ReactiveFormsModule, RouterTestingModule, StoreModule.forRoot({login: loginReducer})
       ],
       declarations: [ LoginViewComponent ]
     })

@@ -34,7 +34,7 @@ export class LoginEffects {
   successfullLogin = this.actions$.pipe(
     ofType(LoginActions.LOGIN_SUCCESS),
     tap(() =>  {
-      this.router.navigate(['/user'])
+      this.router.navigate(['/user']);
     })
   );
 

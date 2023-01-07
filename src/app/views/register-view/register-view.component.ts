@@ -14,7 +14,7 @@ export class RegisterViewComponent implements OnInit {
   newUserError = false;
   newUserCreated = false;
 
-  constructor(private processRegisterService: ProcessRegisterService) { 
+  constructor(private processRegisterService: ProcessRegisterService) {
     this.createForm();
   }
 
@@ -37,8 +37,8 @@ export class RegisterViewComponent implements OnInit {
     this.processRegisterService
       .submitData(formData)
       .subscribe(
-         data => { this.newUserCreated = true },
-         error => { this.newUserError = true, this.newUserCreated = false }
+        data => { this.newUserCreated = true; },
+        error => { this.newUserError = true; this.newUserCreated = false; }
       );
   }
 

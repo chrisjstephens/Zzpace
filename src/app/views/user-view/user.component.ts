@@ -9,16 +9,10 @@ import { environment } from '../../../environments/environment';
 import * as fromLogin from '../../store/login.reducer';
 import { MatButton } from '@angular/material';
 
-
 export interface Users {
   username: string;
   type: string;
 }
-
-const USER_DATA: Users[] = [
-  {username: '1234', type: 'customer'},
-  {username: '1234', type: 'customer'}
-];
 
 @Component({
   selector: 'app-user',

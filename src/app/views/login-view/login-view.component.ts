@@ -22,7 +22,6 @@ export class LoginViewComponent implements OnInit, DoCheck, OnDestroy  {
   lolsubs: Subscription;
   username: String;
 
-  // Store<fromLogin>
   constructor(private store: Store, private loginService: LoginService, private router: Router) {
     this.createForm();
   }

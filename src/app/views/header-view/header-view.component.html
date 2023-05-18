@@ -17,6 +17,9 @@
       <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" [routerLink]="['/teleportation']">Teleportation</a>
       </li>
+      <li *ngIf="username" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" [routerLink]="['/user']">User Panel</a>
+      </li>
       <li className="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
         <a *ngIf="!username; else elseUserName" class="nav-link d-block d-sm-block d-lg-none" [routerLink]="['/login']">Login</a>
         <ng-template #elseUserName>

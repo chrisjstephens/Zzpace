@@ -146,10 +146,11 @@ export class UserComponent implements OnInit {
     this.token$.subscribe(data => this.token = data);
 
     this.getUserData();
+
     if (this.username === 'admin') {
       this.getUsersData();
     }
-    
+
     this.userForm.valueChanges.subscribe(changes => {
       this.updateError = '';
       this.updateSuccess = false;

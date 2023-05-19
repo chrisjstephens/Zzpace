@@ -30,8 +30,8 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4"> 
-          <p *ngIf="newUserCreated">Congrats, new user created!</p>
-          <p *ngIf="newUserError">An error occured, please try again!</p>
+          <p class="text-success" *ngIf="newUserCreated">Congrats, a new user has been created! - {{this.registerForm.controls.username.value}} </p>
+          <p class="text-danger" *ngIf="newUserError">{{newUserError}}</p>
           <!--TODO: FIX / UPDATE THESE MESSAGES-->
       </div>
   </div>

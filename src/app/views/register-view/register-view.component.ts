@@ -11,7 +11,7 @@ import { ProcessRegisterService } from '../../services/process-register.service'
 })
 export class RegisterViewComponent implements OnInit {
   registerForm: FormGroup;
-  newUserError = false;
+  newUserError: string;
   newUserCreated = false;
 
   constructor(private processRegisterService: ProcessRegisterService) {
@@ -37,9 +37,21 @@ export class RegisterViewComponent implements OnInit {
     this.processRegisterService
       .submitData(formData)
       .subscribe(
-        data => { this.newUserCreated = true; },
-        error => { this.newUserError = true; this.newUserCreated = false; }
-      );
+        data => {
+          if (!data.ok) {
+            // Error, perhaps duplicate entry
+            this.newUserError = data.error;
+            this.newUserCreated = false;
+          }
+          // User created
+          this.newUserCreated = true;
+          this.newUserError = '';
+        },
+        error => {
+          // Error, perhaps server side
+          this.newUserError = error.error;
+          this.newUserCreated = false;
+        });
   }
 
 }

@@ -133,7 +133,7 @@ export class UserComponent implements OnInit {
       },
       error: error => {
         this.updateError = error;
-        this.updateSuccess = false ;
+        this.updateSuccess = false;
       }
     });
   }

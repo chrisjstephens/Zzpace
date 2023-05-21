@@ -33,14 +33,14 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <mat-form-field class="form-control">
+        <mat-form-field>
           <input matInput formControlName="departureDate" [matDatepicker]="picker" placeholder="Departure Date" [min]="minDateDeparture" [max]="maxDateDeparture" (dateChange)="dateCheck()" required>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="form-group col-md-4">
-        <mat-form-field class="form-control" *ngIf="returnFlightType">
+        <mat-form-field *ngIf="returnFlightType">
           <input matInput formControlName="returnDate" [matDatepicker]="picker2" placeholder="Return Date" [min]="minDateReturn" [max]="maxDateReturn" (dateChange)="dateCheck()"  required>
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>

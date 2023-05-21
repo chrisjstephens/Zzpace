@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 
 import * as fromLogin from '../../store/login.reducer';
-import { MatButton } from '@angular/material';
+import { MatButton } from '@angular/material/button';
 
 export interface Users {
   username: string;

@@ -7,7 +7,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { environment } from '../../../environments/environment';
 
 import * as fromLogin from '../../store/login.reducer';
-import { MatButton } from '@angular/material/button';
+import { MatLegacyButton as MatButton } from '@angular/material/legacy-button';
 
 export interface Users {
   username: string;

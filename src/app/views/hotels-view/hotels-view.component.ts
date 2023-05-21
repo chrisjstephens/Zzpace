@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, UntypedFormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ import { Locations } from '../../models/locations.model';
   styleUrls: ['./hotels-view.component.css']
 })
 export class HotelsViewComponent implements OnInit {
-  hotelsForm: FormGroup;
+  hotelsForm: UntypedFormGroup;
   locations: Locations[] = [];
   hotelsResults: object;
   hotelRoomTypeResults: object;
@@ -43,7 +43,7 @@ export class HotelsViewComponent implements OnInit {
   minDateCheckOut = new Date();
   maxDateCheckOut = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
-  constructor(private fb: FormBuilder, private locationService: LocationService,
+  constructor(private fb: UntypedFormBuilder, private locationService: LocationService,
     private processHotelsService: ProcessHotelsService, private dailyDealService: DailyDealService) {
     this.createForm();
   }
@@ -60,10 +60,10 @@ export class HotelsViewComponent implements OnInit {
   }
 
   createForm() {
-    this.hotelsForm = new FormGroup({
-      hotelLocation: new FormControl('', Validators.required),
-      checkInDate: new FormControl('', Validators.required),
-      checkOutDate: new FormControl('', Validators.required)
+    this.hotelsForm = new UntypedFormGroup({
+      hotelLocation: new UntypedFormControl('', Validators.required),
+      checkInDate: new UntypedFormControl('', Validators.required),
+      checkOutDate: new UntypedFormControl('', Validators.required)
     });
   }
 

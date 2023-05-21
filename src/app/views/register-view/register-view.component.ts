@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { ProcessRegisterService } from '../../services/process-register.service';
 
@@ -10,7 +10,7 @@ import { ProcessRegisterService } from '../../services/process-register.service'
   styleUrls: ['./register-view.component.css']
 })
 export class RegisterViewComponent implements OnInit {
-  registerForm: FormGroup;
+  registerForm: UntypedFormGroup;
   newUserError: string;
   newUserCreated = false;
 
@@ -22,9 +22,9 @@ export class RegisterViewComponent implements OnInit {
   }
 
   createForm() {
-    this.registerForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)])
+    this.registerForm = new UntypedFormGroup({
+      username: new UntypedFormControl('', [Validators.required, Validators.minLength(8)]),
+      password: new UntypedFormControl('', [Validators.required, Validators.minLength(8)])
     });
   }
 

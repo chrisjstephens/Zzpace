@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { environment } from '../../../environments/environment';
 
@@ -27,7 +27,7 @@ export class UserComponent implements OnInit {
   displayedColumns: string[] = ['username', 'type', 'deleteAction'];
   username: string;
   usersData;
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   adminTabSuccessMessage: string;
   adminTabErrorMessage: string;
   updateError: string;
@@ -40,16 +40,16 @@ export class UserComponent implements OnInit {
   }
 
   createForm() {
-    this.userForm = new FormGroup({
-        username2: new FormControl({value: '', disabled: true}, Validators.required),
-        type: new FormControl({value: '', disabled: true}, Validators.required),
-        firstName: new FormControl('', Validators.required),
-        lastName: new FormControl('', Validators.required),
-        gender: new FormControl('', Validators.required),
-        address: new FormControl('', Validators.required),
-        country: new FormControl('', Validators.required),
-        phoneNumber: new FormControl('', Validators.required),
-        dateOfBirth: new FormControl('', Validators.required)
+    this.userForm = new UntypedFormGroup({
+        username2: new UntypedFormControl({value: '', disabled: true}, Validators.required),
+        type: new UntypedFormControl({value: '', disabled: true}, Validators.required),
+        firstName: new UntypedFormControl('', Validators.required),
+        lastName: new UntypedFormControl('', Validators.required),
+        gender: new UntypedFormControl('', Validators.required),
+        address: new UntypedFormControl('', Validators.required),
+        country: new UntypedFormControl('', Validators.required),
+        phoneNumber: new UntypedFormControl('', Validators.required),
+        dateOfBirth: new UntypedFormControl('', Validators.required)
       });
   }
 

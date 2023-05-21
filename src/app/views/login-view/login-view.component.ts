@@ -1,5 +1,5 @@
 import { Component, OnInit, DoCheck, OnDestroy } from '@angular/core';
-import { FormArray, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, UntypedFormControl, FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import * as LoginActions from '../../store/login.actions';
   styleUrls: ['./login-view.component.css']
 })
 export class LoginViewComponent implements OnInit, DoCheck, OnDestroy  {
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   loginData: object;
   loginError = false;
   username$: Observable<any>;
@@ -49,9 +49,9 @@ export class LoginViewComponent implements OnInit, DoCheck, OnDestroy  {
   }
 
   createForm() {
-    this.loginForm = new FormGroup({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
+    this.loginForm = new UntypedFormGroup({
+      username: new UntypedFormControl('', Validators.required),
+      password: new UntypedFormControl('', Validators.required)
     });
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, UntypedFormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -20,8 +20,8 @@ import { FlightData } from '../../models/flightData.model';
   styleUrls: ['./flights-view.component.css']
 })
 export class FlightsViewComponent implements OnInit {
-  flightsForm: FormGroup;
-  locationCtrl: FormControl;
+  flightsForm: UntypedFormGroup;
+  locationCtrl: UntypedFormControl;
   filteredLocations: Observable<any[]>;
   displayResults = false;
   displayArrivalResults = false;
@@ -58,7 +58,7 @@ export class FlightsViewComponent implements OnInit {
   minDateReturn = new Date();
   maxDateReturn = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
-  constructor(private fb: FormBuilder, private locationService: LocationService,
+  constructor(private fb: UntypedFormBuilder, private locationService: LocationService,
     private processFlightsService: ProcessFlightsService, private dailyDealService: DailyDealService) {
     this.createForm();
   }
@@ -75,12 +75,12 @@ export class FlightsViewComponent implements OnInit {
   }
 
   createForm() {
-    this.flightsForm = new FormGroup({
-      fromLocation: new FormControl('', Validators.required),
-      toLocation: new FormControl('', Validators.required),
-      departureDate: new FormControl('', Validators.required),
-      returnDate: new FormControl('', Validators.required),
-      ticketsAmt: new FormControl('', Validators.required)
+    this.flightsForm = new UntypedFormGroup({
+      fromLocation: new UntypedFormControl('', Validators.required),
+      toLocation: new UntypedFormControl('', Validators.required),
+      departureDate: new UntypedFormControl('', Validators.required),
+      returnDate: new UntypedFormControl('', Validators.required),
+      ticketsAmt: new UntypedFormControl('', Validators.required)
     });
   }
 

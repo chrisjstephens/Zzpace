@@ -13,6 +13,6 @@ export class ProcessFlightsService {
   }
 
   public getJSON(queryString: string): Observable<any> {
-        return this.http.get(environment.BACKEND_ADDRESS + '/api/processFlights' + queryString );
+        return this.http.get(environment.BACKEND_ADDRESS + '/api/processFlights' + queryString ); //TODO: Change to post
   }
 }

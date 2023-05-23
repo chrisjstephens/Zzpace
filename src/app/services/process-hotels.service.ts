@@ -13,6 +13,6 @@ export class ProcessHotelsService {
   }
 
   public getJSON(queryString: string): Observable<any> {
-        return this.http.get(environment.BACKEND_ADDRESS + '/api/processHotels' + queryString );
+        return this.http.get(environment.BACKEND_ADDRESS + '/api/processHotels' + queryString ); // TODO: Change to post
   }
 }

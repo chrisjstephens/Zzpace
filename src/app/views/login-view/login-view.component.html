@@ -27,7 +27,7 @@
     </div>
     <div class="form-row" *ngIf="error$ | async">
       <div class="form-group">
-          <p class="text-danger px-1" > {{error$ | async}} </p>
+          <ngb-alert type="danger" [dismissible]="false"> {{error$ | async}} </ngb-alert>
         </div>
      </div>
   </form>

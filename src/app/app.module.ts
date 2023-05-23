@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppMaterialModule } from './modules/app-material/app-material.module';
 import { StoreModule, ActionReducer, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -55,6 +55,7 @@ export const metaReducers: MetaReducer<any>[] = [getStorageReducer];
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    NgbAlertModule,
     NgbModule,
     ReactiveFormsModule,
     StoreModule.forRoot({login: loginReducer}, {metaReducers}),

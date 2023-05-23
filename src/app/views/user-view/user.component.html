@@ -4,7 +4,7 @@
 
 <mat-tab-group>
   <mat-tab label="User Information">
-    <form [formGroup]="userForm" *ngIf="!userError">  <!-- (ngSubmit)="onSubmit()"-->
+    <form [formGroup]="userForm" *ngIf="!userError">
       <div class="form-row">
         <div class="form-group col-md-4">
           <mat-form-field appearance="standard">
@@ -81,10 +81,9 @@
         UPDATE
       </button>
     </form>
-  
-    <p class="text-danger" *ngIf="userError">An error has occured trying to get the user data</p>
-    <p class="text-danger" *ngIf="updateError">{{updateError}}</p>
-    <p class="text-success" *ngIf="updateSuccess">The update is successful!</p> 
+    <ngb-alert type="error" *ngIf="userError" [dismissible]="false">An error has occured trying to get the user data</ngb-alert>
+    <ngb-alert type="error" *ngIf="updateError" [dismissible]="false">{{updateError}}</ngb-alert>
+    <ngb-alert type="success" *ngIf="updateSuccess" [dismissible]="false">The update is successful!</ngb-alert>
   </mat-tab>
   <mat-tab label="Admin Tab" *ngIf="username ==='admin'">
 
@@ -116,8 +115,8 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     
-    <p class="text-danger" *ngIf="usersError">An error has occured trying to get users data.</p>
-    <p class="text-danger" *ngIf="adminTabErrorMessage">{{adminTabErrorMessage}}</p>
-    <p class="text-success" *ngIf="adminTabSuccessMessage">{{adminTabSuccessMessage}}</p>
+    <ngb-alert type="danger" *ngIf="usersError" [dismissible]="false">An error has occured trying to get users data.</ngb-alert>
+    <ngb-alert type="danger" *ngIf="adminTabErrorMessage" [dismissible]="false">{{adminTabErrorMessage}}</ngb-alert>
+    <ngb-alert type="success" *ngIf="adminTabSuccessMessage" [dismissible]="false">{{adminTabSuccessMessage}}</ngb-alert>
   </mat-tab>
 </mat-tab-group>

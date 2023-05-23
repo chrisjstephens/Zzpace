@@ -4,6 +4,7 @@ import { LoginService } from '../../services/login.service';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromLogin from '../../store/login.reducer';
 import * as LoginActions from '../../store/login.actions';

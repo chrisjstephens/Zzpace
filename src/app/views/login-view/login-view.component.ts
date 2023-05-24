@@ -21,6 +21,7 @@ export class LoginViewComponent implements OnInit, DoCheck, OnDestroy  {
   error$: Observable<any>;
   lolsubs: Subscription;
   username: String;
+  hide = true;
 
   constructor(private store: Store, private loginService: LoginService, private router: Router) {
     this.createForm();

@@ -1,4 +1,4 @@
-<div *ngIf="!username"> <!---->
+<div *ngIf="!username">
   <h1>Login into your account</h1>
   <p>Please enter your credentials to access your Zzpace account!</p>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" > <!--  *ngIf="!flightsDataError" -->
@@ -14,7 +14,10 @@
       <div class="form-group col-md-4">
         <mat-form-field appearance="standard">
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" placeholder="Password">
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
         </mat-form-field>
       </div>
     </div>

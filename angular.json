@@ -56,8 +56,7 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -92,6 +91,16 @@
               "src/assets"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "eslintConfig": ".eslintrc.json",
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -110,6 +119,9 @@
     }
   },
   "cli": {
-    "analytics": "2ffa5c7c-a204-46ac-8001-0167dc5b76a8"
+    "analytics": "2ffa5c7c-a204-46ac-8001-0167dc5b76a8",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

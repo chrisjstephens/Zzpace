@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { ProcessRegisterService } from '../../services/process-register.service';
@@ -9,16 +9,13 @@ import { ProcessRegisterService } from '../../services/process-register.service'
   templateUrl: './register-view.component.html',
   styleUrls: ['./register-view.component.css']
 })
-export class RegisterViewComponent implements OnInit {
+export class RegisterViewComponent {
   registerForm: UntypedFormGroup;
   newUserError: string;
   newUserCreated = false;
 
   constructor(private processRegisterService: ProcessRegisterService) {
     this.createForm();
-  }
-
-  ngOnInit() {
   }
 
   createForm() {

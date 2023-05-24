@@ -103,8 +103,8 @@
     <h1>Congrats for your booking!</h1>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let flightData of flightData; let i = index">
-        <h2 *ngIf="i == 0">Departure Flight:</h2>
-        <h2 *ngIf="i == 1">Return Flight:</h2>
+        <h2 *ngIf="i === 0">Departure Flight:</h2>
+        <h2 *ngIf="i === 1">Return Flight:</h2>
         <p> <span class="font-weight-bold">Flight Id: {{flightData.flightId}}</span></p>
         <p> <span class="font-weight-bold">Number of Tickets: {{flightData.ticketsAmt}}</span></p>
         <p> <span class="font-weight-bold">{{flightData.departureLocation}}</span> to <span class="font-weight-bold">{{flightData.arrivalLocation}}</span> - <span class="font-weight-bold">Trip Length:</span> {{ flightData.flightTimeLength }} Hours </p>

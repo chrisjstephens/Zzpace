@@ -14,11 +14,24 @@ export class PlanetCardsComponent implements OnInit {
 
   ngOnInit() {
     // Get data from api, and return 3 random results
-    this.planetCardsService.getJSON()
+    const planetCards = localStorage.getItem("planetCards");
+
+    if (!planetCards) {
+      this.planetCardsService.getJSON()
       .subscribe(
-        data => { this.planetCardsData = data.sort(() => Math.random() - 0.5).slice(0, 3); },
-        error => {  this.planetCardsError = true; }
+        data => { 
+          this.planetCardsData = data.sort(() => Math.random() - 0.5).slice(0, 3); 
+          localStorage.setItem("planetCards", JSON.stringify(this.planetCardsData));
+        },
+        error => { 
+          this.planetCardsError = true; 
+          localStorage.remove("planetCards");
+        }
       );
+    } else {
+      this.planetCardsData = JSON.parse(planetCards);
+    }
+    
   }
 
 }

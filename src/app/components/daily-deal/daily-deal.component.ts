@@ -14,10 +14,23 @@ export class DailyDealComponent implements OnInit {
   constructor(private dailyDealService: DailyDealService) { }
 
   ngOnInit() {
-    this.dailyDealService.getJSON()
+    const dailyDeal = localStorage.getItem("dailyDeal");
+
+    if (!dailyDeal) {
+      this.dailyDealService.getJSON()
       .subscribe(
-        data => { this.dailyDealData = data; },
-        error => {  this.dailyDealError = true; }
+        data => {
+          this.dailyDealData = data;
+          localStorage.setItem("dailyDeal", JSON.stringify(this.dailyDealData));
+        },
+        error => {  
+          this.dailyDealError = true; 
+          localStorage.remove("dailyDeal");
+        }
       );
+    } else {
+      this.dailyDealData = JSON.parse(dailyDeal);
+    }
+    
   }
 }
